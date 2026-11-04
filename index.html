@@ -1,0 +1,4465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Puente Profesional — Tu primer empleo empieza con un primer paso</title>
+  <meta name="description" content="Plataforma de demostración y autogestión para estudiantes y recién egresados sin experiencia laboral formal previa." />
+  <meta property="og:title" content="Puente Profesional" />
+  <meta property="og:description" content="Plataforma de autogestión para el primer empleo. Formación, CV, Portafolio, Entrevistas STAR, Postulaciones y Hábitos." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Estilos visuales minimalistas estilo Notion -->
+  <style>
+    /* ==========================================================================
+       1. VARIABLES CSS Y RESET BASE (ESTILO NOTION)
+       ========================================================================== */
+    :root {
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F5;
+      --bg-tertiary: #EEEEEC;
+      --text-primary: #37352F;
+      --text-secondary: #686762;
+      --text-muted: #8F8E8B;
+      --border-subtle: #E8E8E6;
+      --border-medium: #D3D3D0;
+      
+      /* Acentos discretos oficiales Notion */
+      --color-inicio: #347EA9;
+      --color-formacion: #AAA93E;
+      --color-preparacion: #9165B0;
+      --color-postulaciones: #E3BD50;
+      --color-journal: #C14C8A;
+      
+      /* Botón principal carbón */
+      --btn-primary-bg: #2F2E2B;
+      --btn-primary-text: #FFFFFF;
+      --btn-primary-hover: #191816;
+      
+      /* Sombras mínimas y radios tenues */
+      --shadow-sm: 0 1px 2px rgba(55, 53, 47, 0.05);
+      --shadow-md: 0 4px 12px rgba(55, 53, 47, 0.07);
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      
+      --font-stack: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-stack);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input, textarea, select {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* Iconos SVG inline */
+    .svg-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    /* Accesibilidad: foco visible */
+    :focus-visible {
+      outline: 2px solid var(--text-primary);
+      outline-offset: 2px;
+    }
+
+    /* ==========================================================================
+       2. LAYOUT GENERAL Y CONTENEDORES
+       ========================================================================== */
+    #app-root {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app-workspace {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* Sidebar escritorio */
+    .app-sidebar {
+      width: 256px;
+      background-color: var(--bg-secondary);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      user-select: none;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      padding: 16px 16px 14px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      background-color: var(--text-primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .brand-title {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      color: var(--text-primary);
+    }
+
+    .sidebar-user {
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .sidebar-user-name {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sidebar-nav {
+      padding: 12px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: background 0.15s ease, color 0.15s ease;
+      text-align: left;
+      width: 100%;
+    }
+
+    .nav-item:hover {
+      background-color: rgba(55, 53, 47, 0.04);
+      color: var(--text-primary);
+    }
+
+    .nav-item.active {
+      background-color: rgba(55, 53, 47, 0.08);
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sidebar-footer {
+      padding: 12px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .btn-exit-demo, .btn-reset-demo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
+      width: 100%;
+      text-align: left;
+      transition: background 0.15s ease;
+    }
+
+    .btn-exit-demo:hover, .btn-reset-demo:hover {
+      background-color: rgba(55, 53, 47, 0.05);
+      color: var(--text-primary);
+    }
+
+    .btn-reset-demo {
+      color: #b91c1c;
+    }
+    .btn-reset-demo:hover {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* Contenido principal */
+    .app-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--bg-primary);
+      min-width: 0;
+      position: relative;
+    }
+
+    .top-header {
+      height: 52px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      background-color: var(--bg-primary);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13.5px;
+      color: var(--text-secondary);
+    }
+
+    .breadcrumb-current {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+    }
+
+    .content-viewport {
+      flex: 1;
+      padding: 32px 36px 64px 36px;
+      max-width: 1060px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* ==========================================================================
+       3. COMPONENTES COMUNES Y NOTION-STYLE UI
+       ========================================================================== */
+    .section-kicker {
+      font-size: 12.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.6px;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+
+    .page-description {
+      font-size: 14.5px;
+      color: var(--text-secondary);
+      max-width: 720px;
+      margin-bottom: 28px;
+    }
+
+    .notion-card {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.15s ease;
+    }
+
+    .notion-card:hover {
+      border-color: var(--border-medium);
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .card-meta {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* Botones */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 8px 16px;
+      font-size: 13.5px;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      transition: background 0.15s ease, opacity 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background-color: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--btn-primary-hover);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-tertiary);
+    }
+
+    .btn-danger {
+      background-color: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .btn-danger:hover {
+      background-color: #fca5a5;
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 12.5px;
+    }
+
+    /* Píldoras e indicadores sutiles (texto oscuro garantizado) */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .status-pendiente {
+      background-color: #f1f1ef;
+      color: #5a5955;
+    }
+
+    .status-en-curso {
+      background-color: #edf5fa;
+      color: #174868;
+    }
+
+    .status-completado {
+      background-color: #f1f3e7;
+      color: #434416; /* Texto oscuro sobre verde lima oliva */
+    }
+
+    .status-entrevista {
+      background-color: #f5f0f9;
+      color: #4a2862;
+    }
+
+    .status-oferta {
+      background-color: #fdf8e7;
+      color: #524212; /* Texto oscuro sobre amarillo dorado */
+    }
+
+    .status-rechazada {
+      background-color: #fdeeee;
+      color: #9c2828;
+    }
+
+    .status-retirada {
+      background-color: #f3f3f3;
+      color: #666666;
+    }
+
+    /* Formularios Notion */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .form-label .req {
+      color: #b91c1c;
+      margin-left: 2px;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 14px;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--text-primary);
+      outline: none;
+    }
+
+    .form-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Estado vacío */
+    .empty-state {
+      padding: 48px 24px;
+      text-align: center;
+      border: 1px dashed var(--border-medium);
+      border-radius: var(--radius-md);
+      background-color: var(--bg-secondary);
+      margin: 16px 0;
+    }
+
+    .empty-state-icon {
+      margin-bottom: 12px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: center;
+    }
+
+    .empty-state-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .empty-state-desc {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      max-width: 440px;
+      margin: 0 auto 18px auto;
+    }
+
+    /* Pestañas */
+    .tab-bar {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 24px;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.15s ease, border-color 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .tab-btn.active {
+      color: var(--text-primary);
+      border-bottom-color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       4. SECCIÓN BIENVENIDA Y ACCESO DEMO
+       ========================================================================== */
+    .welcome-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 56px 24px;
+    }
+
+    .welcome-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+
+    .welcome-hero {
+      margin-bottom: 48px;
+    }
+
+    .welcome-quote-box {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      margin-bottom: 36px;
+      font-style: italic;
+      color: var(--text-secondary);
+      font-size: 14.5px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .welcome-quote-icon {
+      font-style: normal;
+      color: var(--color-inicio);
+      display: flex;
+      align-items: center;
+    }
+
+    .welcome-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 44px;
+    }
+
+    .welcome-feature {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+    }
+
+    .welcome-feature-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 12px;
+    }
+
+    /* Acceso Demo Modal / Card */
+    .access-container {
+      max-width: 480px;
+      margin: 80px auto;
+      padding: 32px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ==========================================================================
+       5. DASHBOARD
+       ========================================================================== */
+    .dashboard-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .metric-card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+    }
+
+    .metric-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      font-variant-numeric: tabular-nums;
+      margin: 6px 0 2px 0;
+    }
+
+    .metric-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .next-step-card {
+      background-color: #faf9f6;
+      border: 1px solid #e8e4dc;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .next-step-content h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .next-step-content p {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+    }
+
+    .areas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .area-nav-card {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      text-align: left;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .area-nav-card:hover {
+      border-color: var(--text-primary);
+      transform: translateY(-1px);
+    }
+
+    .area-card-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .journal-prompt-box {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    /* ==========================================================================
+       6. ÁREA FORMACIÓN
+       ========================================================================== */
+    .progress-bar-container {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 8px;
+      background-color: var(--border-subtle);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: var(--color-formacion);
+      transition: width 0.3s ease;
+    }
+
+    .progress-percentage {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      font-variant-numeric: tabular-nums;
+      min-width: 50px;
+      text-align: right;
+    }
+
+    .controls-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 220px;
+      max-width: 360px;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .items-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .course-card {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .course-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .course-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .auto-save-indicator {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .auto-save-indicator.saved {
+      color: #3b7c3f;
+    }
+
+    /* ==========================================================================
+       7. ÁREA PREPARACIÓN: CV, PORTAFOLIO, ENTREVISTAS
+       ========================================================================== */
+    .cv-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .cv-preview-paper {
+      background-color: #ffffff;
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-sm);
+      padding: 32px 36px;
+      box-shadow: var(--shadow-sm);
+      font-size: 13.5px;
+      line-height: 1.5;
+    }
+
+    .cv-preview-header {
+      border-bottom: 2px solid var(--text-primary);
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+    }
+
+    .cv-preview-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .cv-preview-contact {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .cv-preview-section {
+      margin-bottom: 18px;
+    }
+
+    .cv-preview-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 4px;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .cv-checklist {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-top: 20px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+
+    /* Entrevistas STAR */
+    .star-guide-banner {
+      background-color: #f7f3f9;
+      border: 1px solid #ebddef;
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-size: 13.5px;
+    }
+
+    .star-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .star-step-item {
+      background: #ffffff;
+      border: 1px solid #e4d3e9;
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      font-size: 12px;
+    }
+
+    .star-step-item strong {
+      color: var(--color-preparacion);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .interview-card {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-top: 16px;
+    }
+
+    .interview-suggestion-box {
+      background-color: var(--bg-secondary);
+      border-left: 3px solid var(--color-preparacion);
+      padding: 14px 18px;
+      margin: 16px 0;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 13.5px;
+    }
+
+    /* ==========================================================================
+       8. ÁREA POSTULACIONES
+       ========================================================================== */
+    .postulaciones-table-container {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      background-color: var(--bg-primary);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13.5px;
+    }
+
+    .data-table th {
+      background-color: var(--bg-secondary);
+      padding: 10px 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 12.5px;
+    }
+
+    .data-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      vertical-align: middle;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table tr:hover td {
+      background-color: rgba(55, 53, 47, 0.02);
+    }
+
+    .disclaimer-banner {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      background-color: #fbf9f2;
+      border: 1px solid #f2e9cb;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ==========================================================================
+       9. ÁREA JOURNAL Y HÁBITOS
+       ========================================================================== */
+    .journal-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .reflection-prompts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .prompt-chip {
+      font-size: 12px;
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      padding: 4px 10px;
+      border-radius: 999px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .prompt-chip:hover {
+      background-color: var(--border-subtle);
+      color: var(--text-primary);
+    }
+
+    .habits-container {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-top: 32px;
+    }
+
+    .habit-item {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+      transition: border-color 0.15s ease;
+    }
+
+    .habit-item.done {
+      border-color: #cbd5e1;
+      background-color: #fafaf9;
+    }
+
+    .habit-checkbox {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: var(--text-primary);
+    }
+
+    /* ==========================================================================
+       10. MODALES Y TOASTS ACCESIBLES
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(55, 53, 47, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--bg-primary);
+      border-radius: var(--radius-md);
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-subtle);
+      transform: translateY(12px);
+      transition: transform 0.2s ease;
+    }
+
+    .modal-backdrop.open .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .modal-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .modal-close-btn {
+      font-size: 18px;
+      color: var(--text-muted);
+      padding: 4px;
+      line-height: 1;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    /* Toast notification */
+    #toast-notification {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background-color: var(--btn-primary-bg);
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 13.5px;
+      box-shadow: var(--shadow-md);
+      z-index: 200;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      pointer-events: none;
+      max-width: 380px;
+    }
+
+    #toast-notification.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* ==========================================================================
+       11. REGLAS RESPONSIVE (MÓVIL < 768px)
+       ========================================================================== */
+    @media (max-width: 768px) {
+      .app-workspace {
+        flex-direction: column;
+      }
+
+      .app-sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        z-index: 90;
+        width: 270px;
+        transition: left 0.25s ease;
+        box-shadow: var(--shadow-md);
+      }
+
+      .app-sidebar.open {
+        left: 0;
+      }
+
+      .sidebar-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.3);
+        z-index: 80;
+      }
+
+      .sidebar-backdrop.open {
+        display: block;
+      }
+
+      .mobile-menu-btn {
+        display: inline-flex;
+      }
+
+      .content-viewport {
+        padding: 20px 16px 40px 16px;
+      }
+
+      .top-header {
+        padding: 0 16px;
+      }
+
+      .cv-layout, .journal-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .star-steps {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      /* Transformación de tabla a tarjetas en móvil */
+      .data-table, .data-table thead, .data-table tbody, .data-table th, .data-table td, .data-table tr {
+        display: block;
+      }
+
+      .data-table thead {
+        display: none;
+      }
+
+      .data-table tr {
+        margin-bottom: 12px;
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-sm);
+        padding: 12px;
+        background: var(--bg-primary);
+      }
+
+      .data-table td {
+        padding: 6px 0;
+        border-bottom: 1px solid #f1f1ef;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .data-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      .data-table td:last-child {
+        border-bottom: none;
+      }
+    }
+
+    /* Reducción de movimiento */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* ==========================================================================
+       12. CSS DE IMPRESIÓN (SOLO CURRÍCULUM)
+       ========================================================================== */
+    @media print {
+      body, html {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 11pt !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      /* Ocultar elementos de interfaz */
+      .app-sidebar,
+      .top-header,
+      .breadcrumb,
+      .btn,
+      .tab-bar,
+      .cv-editor-panel,
+      .cv-checklist,
+      .controls-bar,
+      .no-print,
+      .modal-backdrop,
+      #toast-notification,
+      .page-title,
+      .page-description,
+      .section-kicker,
+      .sidebar-backdrop {
+        display: none !important;
+      }
+
+      .content-viewport {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .cv-layout {
+        display: block !important;
+      }
+
+      .cv-preview-paper {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+      }
+
+      @page {
+        margin: 1.5cm;
+        size: A4 portrait;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app-root">
+    <!-- Contenido inyectado dinámicamente según la ruta -->
+  </div>
+
+  <!-- Contenedor de Toast accesible -->
+  <div id="toast-notification" role="status" aria-live="polite"></div>
+
+  <!-- Modal genérico para altas, ediciones y confirmaciones -->
+  <div id="app-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title-elem" tabindex="-1">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-title-elem" class="modal-title">Título del Modal</h2>
+        <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div id="modal-body-elem"></div>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * ==========================================================================
+     * PUENTE PROFESIONAL — PLATAFORMA DE AUTOGESTIÓN Y PREPARACIÓN LABORAL
+     * Código modular y autocontenido en Vanilla JavaScript (ES2022).
+     * ==========================================================================
+     */
+
+    // --- 0. FAMILIA DE ICONOS SVG INLINE (20-24px, trazo 1.75-2px, extremos redondeados) ---
+    const Icons = {
+      // Símbolos solicitados formalmente
+      home: (size = 20, color = "currentColor") => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-5h-4v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+        </svg>`,
+      bookOpen: (size = 20, color = "currentColor") => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>`,
+      briefcase: (size = 20, color = "currentColor") => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+        </svg>`,
+      fileText: (size = 20, color = "currentColor") => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>`,
+      folder: (size = 20, color = "currentColor") => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+        </svg>`,
+      messageSquare: (size = 20, color = "currentColor") => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          <line x1="8" y1="9" x2="16" y2="9"/>
+          <line x1="8" y1="12" x2="13" y2="12"/>
+        </svg>`,
+      clipboardCheck: (size = 20, color = "currentColor") => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+          <path d="m9 14 2 2 4-4"/>
+        </svg>`,
+      notebook: (size = 20, color = "currentColor") => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+          <line x1="7" y1="6" x2="16" y2="6"/>
+          <line x1="7" y1="10" x2="16" y2="10"/>
+          <line x1="7" y1="14" x2="12" y2="14"/>
+          <line x1="4" y1="2" x2="4" y2="22"/>
+        </svg>`,
+
+      // Iconos auxiliares coherentes
+      edit: (size = 14) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+          <path d="m15 5 4 4"/>
+        </svg>`,
+      trash: (size = 14) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 6h18"/>
+          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+          <line x1="10" y1="11" x2="10" y2="17"/>
+          <line x1="14" y1="11" x2="14" y2="17"/>
+        </svg>`,
+      user: (size = 16) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>`,
+      logout: (size = 15) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>`,
+      refresh: (size = 15) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+          <path d="M3 3v5h5"/>
+          <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+          <path d="M16 16h5v5"/>
+        </svg>`,
+      printer: (size = 16) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="6 9 6 2 18 2 18 9"/>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+          <rect x="6" y="14" width="12" height="8"/>
+        </svg>`,
+      externalLink: (size = 13) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>`,
+      building: (size = 14) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="4" y="2" width="16" height="20" rx="2" ry="2"/>
+          <path d="M9 22v-4h6v4"/>
+          <line x1="8" y1="6" x2="8.01" y2="6"/>
+          <line x1="16" y1="6" x2="16.01" y2="6"/>
+          <line x1="8" y1="10" x2="8.01" y2="10"/>
+          <line x1="16" y1="10" x2="16.01" y2="10"/>
+          <line x1="8" y1="14" x2="8.01" y2="14"/>
+          <line x1="16" y1="14" x2="16.01" y2="14"/>
+        </svg>`,
+      bell: (size = 16) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+        </svg>`,
+      info: (size = 16) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="16" x2="12" y2="12"/>
+          <line x1="12" y1="8" x2="12.01" y2="8"/>
+        </svg>`,
+      close: (size = 14) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>`,
+      menu: (size = 20) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>`,
+      quote: (size = 18) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 21c3 0 7-1 7-8V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h4c0 3.5-2.5 5.5-5 5.5V21z"/>
+          <path d="M17 21c3 0 7-1 7-8V5c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h4c0 3.5-2.5 5.5-5 5.5V21z"/>
+        </svg>`,
+      check: (size = 13) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>`,
+      lightbulb: (size = 15) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 18h6"/>
+          <path d="M10 22h4"/>
+          <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.41 2.5"/>
+        </svg>`,
+      leaf: (size = 15) => `
+        <svg class="svg-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+        </svg>`
+    };
+
+    // --- 1. BANCO DE DATOS LOCAL Y PREGUNTAS STAR ---
+    const MOTIVATIONAL_QUOTES = [
+      "Cada gran trayectoria comenzó con una persona que se animó a dar su primer paso.",
+      "Tus proyectos académicos y aprendizajes ya son evidencia valiosa de lo que puedes lograr.",
+      "No necesitas experiencia previa para demostrar curiosidad, rigor y ganas de aprender.",
+      "El valor de tu perfil no reside en los años de experiencia, sino en la calidad de tu preparación.",
+      "La constancia serena supera a la prisa: un paso estructurado a la vez.",
+      "El primer empleo llega cuando sabes contar con honestidad todo lo que eres capaz de construir."
+    ];
+
+    const INTERVIEW_BANK = {
+      es: {
+        inicial: [
+          {
+            id: "es_ini_1",
+            pregunta: "¿Puedes compartir un momento en tus estudios donde tuviste que adaptarte a un cambio imprevisto?",
+            consejo: "Enfócate en tu capacidad de flexibilidad y actitud positiva ante lo incierto, sin culpar a profesores o compañeros.",
+            sugerencia: "Situación: En el último semestre cambiaron el formato de entrega a solo 48 horas de la fecha límite.\nTarea: Reorganizar el plan de trabajo con mi equipo.\nAcción: Realicé una lista de prioridades críticas y redistribuimos las secciones.\nResultado: Entregamos a tiempo con calificación sobresaliente y aprendí a diseñar planes de contingencia."
+          },
+          {
+            id: "es_ini_2",
+            pregunta: "Cuéntame sobre un proyecto en equipo donde surgió un desacuerdo sobre cómo avanzar.",
+            consejo: "Muestra escucha activa, empatía y orientación a acuerdos constructivos basados en datos u objetivos comunes.",
+            sugerencia: "Situación: Dos integrantes querían usar herramientas de software distintas para una presentación final.\nTarea: Evitar retrasos y mantener la cohesión del grupo.\nAcción: Propuse listar pros y contras de cada opción en relación con los requisitos de la rúbrica.\nResultado: Acordamos una solución híbrida y entregamos con felicitaciones por la claridad metodológica."
+          },
+          {
+            id: "es_ini_3",
+            pregunta: "¿Cómo organizas tus tiempos cuando tienes varias entregas o exámenes simultáneos?",
+            consejo: "Describe un método concreto (listas por urgencia/impacto, bloques de tiempo, calendarios compartidos).",
+            sugerencia: "Situación: Coincidieron tres entregas finales y un examen parcial en la misma semana.\nTarea: Gestionar mi energía y tiempo sin comprometer la calidad.\nAcción: Desglosé cada proyecto en entregables diarios de 2 horas y utilicé la técnica Pomodoro.\nResultado: Cumplí con las 3 entregas con antelación y mantuve un promedio constante."
+          },
+          {
+            id: "es_ini_4",
+            pregunta: "Háblame de una ocasión en la que cometiste un error en una tarea. ¿Cómo lo resolviste?",
+            consejo: "Sé honesto, asume la responsabilidad inmediata y destaca el aprendizaje que aplicas desde entonces.",
+            sugerencia: "Situación: En un reporte de laboratorio ingresé un dato con una unidad de medida incorrecta.\nTarea: Rectificar el cálculo antes de que impactara las conclusiones del informe.\nAcción: Notifiqué de inmediato a mi equipo, volví a correr los cálculos y creé una lista de verificación previa.\nResultado: Corregimos a tiempo y adoptamos esa lista para todas las entregas posteriores."
+          },
+          {
+            id: "es_ini_5",
+            pregunta: "¿Cómo abordas el aprendizaje de un tema o herramienta compleja que nunca habías visto?",
+            consejo: "Demuestra curiosidad intelectual y proactividad autodidacta con recursos estructurados.",
+            sugerencia: "Situación: Para una investigación necesité procesar encuestas con una herramienta de análisis que no conocía.\nTarea: Dominar los conceptos fundamentales en menos de 5 días.\nAcción: Consulté la documentación oficial, completé 2 tutoriales prácticos y practiqué con un conjunto de datos de prueba.\nResultado: Procesé más de 100 respuestas y automaticé los gráficos del reporte final."
+          }
+        ],
+        intermedio: [
+          {
+            id: "es_int_1",
+            pregunta: "Describe una situación donde identificaste una oportunidad de mejora en un proceso y tomaste la iniciativa.",
+            consejo: "Enfatiza el impacto y cómo involucraste a otros sin imponer tu perspectiva.",
+            sugerencia: "Situación: El registro de materiales en el taller estudiantil se hacía en papel y causaba extravíos.\nTarea: Proponer un método accesible sin costo monetario.\nAcción: Diseñé una plantilla compartida en línea con validación de celdas y capacite brevemente a los usuarios.\nResultado: Se redujeron los extravíos a cero durante todo el semestre."
+          },
+          {
+            id: "es_int_2",
+            pregunta: "Cuéntame sobre una ocasión donde tuviste que explicar conceptos complejos a personas sin tu formación.",
+            consejo: "Destaca la capacidad de síntesis, metáforas cotidianas y validación de comprensión.",
+            sugerencia: "Situación: Presenté los resultados de una tesis técnica ante un comité con directivos comerciales.\nTarea: Comunicar la viabilidad del proyecto sin saturar con jerga especializada.\nAcción: Utilicé analogías visuales y un resumen ejecutivo enfocado en beneficios y costos.\nResultado: El proyecto fue aprobado por unanimidad para recibir apoyo de vinculación."
+          },
+          {
+            id: "es_int_3",
+            pregunta: "¿Cómo manejaste una situación de alta presión con plazos muy ajustados y recursos limitados?",
+            consejo: "Transmite templanza y claridad mental para discernir lo indispensable de lo accesorio.",
+            sugerencia: "Situación: Un evento universitario perdió su sede física 3 días antes de realizarse.\nTarea: Gestionar una alternativa sin cancelar la participación de los ponentes.\nAcción: Migramos el programa a modalidad virtual y elaboramos guías rápidas para los asistentes.\nResultado: El evento tuvo 95% de asistencia prevista y cero incidencias técnicas."
+          },
+          {
+            id: "es_int_4",
+            pregunta: "Comparte un logro del que te sientas especialmente orgulloso durante tu etapa formativa.",
+            consejo: "Vincula el orgullo personal con el esfuerzo sostenido y el beneficio generado a otros.",
+            sugerencia: "Situación: Lideré una campaña de recaudación de libros para una biblioteca comunitaria.\nTarea: Recolectar al menos 300 volúmenes en un mes.\nAcción: Coordiné alianzas con 4 colectivos universitarios y difundí la causa con testimonios locales.\nResultado: Superamos la meta con 520 libros y establecimos un club de lectura semanal."
+          },
+          {
+            id: "es_int_5",
+            pregunta: "¿Cómo respondes cuando recibes retroalimentación crítica sobre tu trabajo?",
+            consejo: "Muestra madurez para separar el valor del trabajo de la identidad personal y convertir la crítica en acción.",
+            sugerencia: "Situación: Un profesor señaló deficiencias metodológicas en mi primer borrador de investigación.\nTarea: Reencauzar el documento con objetividad.\nAcción: Agradecí los comentarios, pedí una sesión de aclaración para entender expectativas y reescribí el marco teórico.\nResultado: La versión final obtuvo mención de honor por su solidez teórica."
+          }
+        ]
+      },
+      en: {
+        inicial: [
+          {
+            id: "en_ini_1",
+            pregunta: "Tell me about a time during your studies when you had to adapt quickly to unexpected changes.",
+            consejo: "Focus on adaptability, staying calm, and finding practical solutions without frustration.",
+            sugerencia: "Situation: A team member dropped out two days before a major capstone delivery.\nTask: Reassign responsibilities to ensure all requirements were met.\nAction: I took over the presentation design and redistributed analysis tasks clearly.\nResult: We submitted on time with top marks and built stronger resilience."
+          },
+          {
+            id: "en_ini_2",
+            pregunta: "Can you describe a team project where members disagreed on how to proceed?",
+            consejo: "Highlight active listening, consensus building, and keeping project goals as the north star.",
+            sugerencia: "Situation: Our group disagreed on which methodology to use for field data collection.\nTask: Reach consensus without losing valuable project timeline days.\nAction: I facilitated a matrix comparison based on time, budget, and accuracy.\nResult: We agreed unanimously on a mixed approach that enriched our final analysis."
+          },
+          {
+            id: "en_ini_3",
+            pregunta: "How do you prioritize when facing multiple conflicting deadlines?",
+            consejo: "Mention concrete techniques such as Eisenhower matrix, time-blocking, and clear communication.",
+            sugerencia: "Situation: Finals week coincided with an extracurricular workshop graduation.\nTask: Deliver quality across all commitments without burning out.\nAction: I organized tasks into must-do and should-do buckets using a structured digital planner.\nResult: Completed all exams successfully with an above-average GPA."
+          },
+          {
+            id: "en_ini_4",
+            pregunta: "Tell me about a time you made a mistake on an assignment. How did you handle it?",
+            consejo: "Acknowledge the mistake straightforwardly, fix it, and share the prevention mechanism you adopted.",
+            sugerencia: "Situation: I overlooked a formatting constraint in an official research submission.\nTask: Correct the file before final grading took place.\nAction: I immediately emailed the coordinator with an apology and the updated file within 30 minutes.\nResult: The paper was accepted, and I created a pre-flight checklist for all subsequent work."
+          },
+          {
+            id: "en_ini_5",
+            pregunta: "How do you approach learning a new tool or concept completely on your own?",
+            consejo: "Show curious self-direction, discipline, and building a mini-project to prove competence.",
+            sugerencia: "Situation: A volunteer role required basic spreadsheet scripting I had never learned.\nTask: Acquire sufficient fluency in 7 days.\nAction: I studied official documentation and built practical scripts for dummy data daily.\nResult: Automated a task that previously took 4 hours into a 5-minute routine."
+          }
+        ],
+        intermedio: [
+          {
+            id: "en_int_1",
+            pregunta: "Describe a situation where you noticed an inefficiency and took the initiative to fix it.",
+            consejo: "Emphasize leadership by example and measurable improvement.",
+            sugerencia: "Situation: Student club meeting minutes were scattered across multiple chat apps.\nTask: Create a single source of truth for all active committee members.\nAction: I built a lightweight collaborative workspace with standardized templates.\nResult: Meeting prep time was reduced by 40% and transparency increased significantly."
+          },
+          {
+            id: "en_int_2",
+            pregunta: "Tell me about a time you had to communicate complex information to a non-technical audience.",
+            consejo: "Focus on empathy, avoiding jargon, and verifying understanding with questions.",
+            sugerencia: "Situation: Presented a university sustainability audit to campus dining staff.\nTask: Help team members understand energy metrics without confusing jargon.\nAction: Replaced kilowatt statistics with equivalent household lightbulb analogies.\nResult: Staff enthusiastically adopted the suggested turn-off protocols."
+          },
+          {
+            id: "en_int_3",
+            pregunta: "How did you manage a high-pressure situation with tight deadlines and scarce resources?",
+            consejo: "Demonstrate steady decision-making and ruthless focus on core value.",
+            sugerencia: "Situation: Our student magazine lost its printing sponsor two weeks before launch.\nTask: Pivot delivery without disappointing student contributors.\nAction: We designed a mobile-friendly digital flipbook and launched a targeted email campaign.\nResult: Reached 3x more readers than the original physical print run."
+          },
+          {
+            id: "en_int_4",
+            pregunta: "Share an accomplishment from your academic journey that you are particularly proud of.",
+            consejo: "Connect personal determination with shared community value.",
+            sugerencia: "Situation: Co-founded a peer-to-peer tutoring group for first-year students.\nTask: Support peers struggling with foundational quantitative courses.\nAction: Organized weekly review hours and distributed concise summary guides.\nResult: 85% of participating students passed their midterms with improved confidence."
+          },
+          {
+            id: "en_int_5",
+            pregunta: "How do you handle critical or challenging feedback on your work?",
+            consejo: "Separate ego from work, seek clarity on specific action steps, and execute improvements.",
+            sugerencia: "Situation: A mentor pointed out that my project conclusion lacked data grounding.\nTask: Strengthen the argumentation without being defensive.\nAction: Asked follow-up questions to pinpoint gaps, collected secondary sources, and revised.\nResult: The final paper was selected for presentation at an undergraduate colloquium."
+          }
+        ]
+      }
+    };
+
+    // --- 2. CAPA DE ALMACENAMIENTO (STORAGEMANAGER) ---
+    class StorageManager {
+      static PREFIX = "puente_demo_";
+      static memoryStorage = {};
+      static isLocalStorageAvailable = true;
+
+      static init() {
+        try {
+          const testKey = "__puente_test__";
+          localStorage.setItem(testKey, "1");
+          localStorage.removeItem(testKey);
+          this.isLocalStorageAvailable = true;
+        } catch (e) {
+          this.isLocalStorageAvailable = false;
+          console.warn("localStorage no disponible. Operando en memoria volátil de sesión.");
+        }
+      }
+
+      static get(key, defaultValue = null) {
+        if (!this.isLocalStorageAvailable) {
+          return this.memoryStorage[key] !== undefined ? this.memoryStorage[key] : defaultValue;
+        }
+        try {
+          const raw = localStorage.getItem(this.PREFIX + key);
+          if (raw === null) return defaultValue;
+          return JSON.parse(raw);
+        } catch (e) {
+          console.error(`Error al leer clave ${key} de localStorage:`, e);
+          return defaultValue;
+        }
+      }
+
+      static set(key, value) {
+        if (!this.isLocalStorageAvailable) {
+          this.memoryStorage[key] = value;
+          return true;
+        }
+        try {
+          localStorage.setItem(this.PREFIX + key, JSON.stringify(value));
+          return true;
+        } catch (e) {
+          console.warn(`Error al guardar en localStorage (posible cuota excedida). Usando memoria.`, e);
+          this.memoryStorage[key] = value;
+          showToast("Aviso: Espacio de almacenamiento limitado. Se guardará temporalmente en memoria.");
+          return false;
+        }
+      }
+
+      static remove(key) {
+        if (!this.isLocalStorageAvailable) {
+          delete this.memoryStorage[key];
+          return;
+        }
+        try {
+          localStorage.removeItem(this.PREFIX + key);
+        } catch (e) {}
+      }
+
+      static resetAll() {
+        const keysToRemove = [
+          "alias", "seeded", "formacion", "cv", "portafolio", 
+          "postulaciones", "journal", "habitos", "interview_answers"
+        ];
+        keysToRemove.forEach(k => {
+          this.remove(k);
+          delete this.memoryStorage[k];
+        });
+      }
+    }
+
+    StorageManager.init();
+
+    // --- 3. ESTADO GLOBAL DE LA APLICACIÓN ---
+    const AppState = {
+      alias: "Persona Demo",
+      activeRoute: "bienvenida",
+      lastQuoteIndex: -1,
+      formacion: [],
+      cv: {
+        nombre: "Elena Rivas Gómez",
+        contacto: "Ciudad de México · elena.rivas@correo.ejemplo · linkedin.com/in/elena-rivas-demo",
+        perfil: "Recién egresada motivada por aplicar pensamiento analítico, rigor y comunicación efectiva en proyectos que generen impacto real. Experiencia destacada en coordinación de proyectos académicos, investigación aplicada y resolución colaborativa de problemas.",
+        formaciones: [
+          { institucion: "Universidad Nacional", titulo: "Licenciatura en Administración / Comunicación", anio: "2021 - 2025" }
+        ],
+        experiencias: [
+          {
+            rol: "Coordinadora de Proyecto Académico",
+            org: "Facultad de Ciencias y Humanidades",
+            periodo: "2024 - 2025",
+            descripcion: "Lideré un equipo de 5 personas en el diseño de un estudio de mercado local para 12 micronegocios, estructurando entrevistas y recomendaciones operativas.",
+            tipo: "academico"
+          },
+          {
+            rol: "Voluntaria de Alfabetización Digital",
+            org: "Centro Comunitario Esperanza",
+            periodo: "2023 - 2024",
+            descripcion: "Diseñé manuales didácticos y facilité 16 sesiones de capacitación básica en herramientas digitales para adultos mayores.",
+            tipo: "voluntariado"
+          }
+        ],
+        habilidades: ["Pensamiento analítico", "Gestión de tareas", "Comunicación asertiva", "Hojas de cálculo", "Trabajo colaborativo", "Adaptabilidad"],
+        idiomas: ["Español (Nativo)", "Inglés (B2 - Profesional intermedio)"],
+        checklist: {
+          claridad: true,
+          ortografia: true,
+          habilidades: true,
+          evidencias: false
+        }
+      },
+      portafolio: [],
+      postulaciones: [],
+      journal: {
+        borrador: { titulo: "", contenido: "" },
+        entradas: []
+      },
+      habitos: {
+        lista: [
+          { id: "h1", nombre: "Aprender algo nuevo (lectura o curso)" },
+          { id: "h2", nombre: "Practicar una respuesta de entrevista STAR" },
+          { id: "h3", nombre: "Hacer una pausa consciente y descanso" }
+        ],
+        registro: {} // Mapeo fecha local 'YYYY-MM-DD' -> array de IDs completados
+      },
+      entrevistasState: {
+        idioma: "es",
+        nivel: "inicial",
+        indicePregunta: 0,
+        revelarSugerencia: false
+      },
+      filtros: {
+        formacionEstado: "todos",
+        formacionBusqueda: "",
+        postulacionesEstado: "todos",
+        postulacionesBusqueda: "",
+        postulacionesOrden: "desc",
+        journalBusqueda: ""
+      }
+    };
+
+    // Cargar o sembrar datos iniciales
+    function loadOrCreateInitialData() {
+      const isSeeded = StorageManager.get("seeded", false);
+      const storedAlias = StorageManager.get("alias", null);
+
+      if (storedAlias !== null) {
+        AppState.alias = storedAlias;
+      }
+
+      if (!isSeeded) {
+        // Carga de datos de demostración solo en primer uso
+        AppState.formacion = [
+          {
+            id: "f_1",
+            titulo: "Gestión Ágil de Proyectos y Colaboración",
+            tipo: "curso",
+            institucion: "Universidad Abierta",
+            fechaInicio: "2026-08-01",
+            fechaFin: "2026-09-15",
+            estado: "completado",
+            notas: "Comprendí los fundamentos de Scrum y Kanban para entregas iterativas en equipo.",
+            comprobanteNombre: "certificado_agil_digital.pdf"
+          },
+          {
+            id: "f_2",
+            titulo: "Fundamentos de Análisis de Datos y Hojas de Cálculo",
+            tipo: "certificacion",
+            institucion: "Academia Digital Global",
+            fechaInicio: "2026-09-20",
+            fechaFin: "",
+            estado: "en_curso",
+            notas: "Practicando tablas dinámicas, funciones lógicas y gráficos para reportes ejecutivos.",
+            comprobanteNombre: ""
+          },
+          {
+            id: "f_3",
+            titulo: "Diplomado en Comunicación Profesional y Liderazgo",
+            tipo: "diplomado",
+            institucion: "Centro de Extensión Continua",
+            fechaInicio: "",
+            fechaFin: "",
+            estado: "pendiente",
+            notas: "Planeado para fortalecer redacción de propuestas e informes formales.",
+            comprobanteNombre: ""
+          }
+        ];
+
+        AppState.portafolio = [
+          {
+            id: "p_1",
+            titulo: "Guía de Bienvenida y Orientación para Nuevos Estudiantes",
+            descripcion: "Proyecto universitario para reducir la deserción en primer año mediante una guía práctica de recursos académicos.",
+            aportacion: "Diseñé la arquitectura de la información, realicé 15 entrevistas a tutores y maqueté los folletos.",
+            habilidades: "Investigación cualitativa, redacción, síntesis, Canva / Google Docs",
+            resultado: "Aprobada por la facultad y distribuida a más de 300 estudiantes de nuevo ingreso.",
+            enlace: "https://ejemplo.edu/guia-estudiantes"
+          },
+          {
+            id: "p_2",
+            titulo: "Optimización de Inventario para Emprendimiento Escolar",
+            descripcion: "Análisis operativo para una cafetería comunitaria que sufría faltantes de producto periódicos.",
+            aportacion: "Desarrollé una plantilla automatizada en hojas de cálculo con alertas de punto de reorden.",
+            habilidades: "Excel intermedio, análisis de procesos, resolución de problemas",
+            resultado: "Se redujeron las compras de emergencia en un 40% durante dos meses consecutivos.",
+            enlace: "https://ejemplo.org/caso-estudio-inventarios"
+          }
+        ];
+
+        AppState.postulaciones = [
+          {
+            id: "pos_1",
+            empresa: "Innovatech Soluciones",
+            puesto: "Analista Junior de Operaciones",
+            enlace: "https://ejemplo.com/empleo-analista",
+            fecha: "2026-10-25",
+            estado: "entrevista",
+            notas: "Entrevista inicial positiva. Preparar respuestas STAR sobre proyectos en equipo.",
+            fechaSeguimiento: "2026-11-06"
+          },
+          {
+            id: "pos_2",
+            empresa: "Grupo Nexo Comunicaciones",
+            puesto: "Coordinador Trainee de Proyectos",
+            enlace: "https://ejemplo.com/trainee",
+            fecha: "2026-10-30",
+            estado: "enviada",
+            notas: "Enviado CV con carta de motivación personalizada destacando proyectos de voluntariado.",
+            fechaSeguimiento: "2026-11-08"
+          },
+          {
+            id: "pos_3",
+            empresa: "Consultoría Horizonte",
+            puesto: "Practicante Profesional",
+            enlace: "",
+            fecha: "2026-10-14",
+            estado: "oferta",
+            notas: "Oferta recibida. Revisar condiciones de inducción y horarios de inicio.",
+            fechaSeguimiento: ""
+          }
+        ];
+
+        AppState.journal.entradas = [
+          {
+            id: "j_1",
+            titulo: "Primer balance de mi preparación laboral",
+            contenido: "Hoy estructuré mi portafolio con proyectos académicos. Al principio dudaba porque sentía que 'no era experiencia formal', pero ver el impacto concreto que tuvieron los proyectos me dio mucha claridad y confianza. La clave es explicar cómo resolví cada reto.",
+            createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
+            updatedAt: new Date(Date.now() - 86400000 * 2).toISOString()
+          }
+        ];
+
+        // Guardar marcas iniciales
+        StorageManager.set("seeded", true);
+        saveAllState();
+      } else {
+        // Cargar datos existentes guardados por el usuario
+        AppState.formacion = StorageManager.get("formacion", []);
+        AppState.cv = StorageManager.get("cv", AppState.cv);
+        AppState.portafolio = StorageManager.get("portafolio", []);
+        AppState.postulaciones = StorageManager.get("postulaciones", []);
+        AppState.journal = StorageManager.get("journal", AppState.journal);
+        AppState.habitos = StorageManager.get("habitos", AppState.habitos);
+      }
+    }
+
+    function saveAllState() {
+      StorageManager.set("alias", AppState.alias);
+      StorageManager.set("formacion", AppState.formacion);
+      StorageManager.set("cv", AppState.cv);
+      StorageManager.set("portafolio", AppState.portafolio);
+      StorageManager.set("postulaciones", AppState.postulaciones);
+      StorageManager.set("journal", AppState.journal);
+      StorageManager.set("habitos", AppState.habitos);
+    }
+
+    // --- 4. UTILIDADES Y VALIDACIONES ---
+    function sanitizeText(str) {
+      if (!str) return "";
+      const div = document.createElement("div");
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function isValidUrl(string) {
+      if (!string || string.trim() === "") return true;
+      try {
+        const url = new URL(string.trim());
+        return url.protocol === "http:" || url.protocol === "https:";
+      } catch (_) {
+        return false;
+      }
+    }
+
+    function getTodayLocalDateString() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function formatDisplayDate(dateStr) {
+      if (!dateStr) return "Sin fecha";
+      try {
+        const parts = dateStr.split("-");
+        if (parts.length === 3) {
+          const d = new Date(parts[0], parts[1] - 1, parts[2]);
+          return d.toLocaleDateString("es-ES", { day: "numeric", month: "short", year: "numeric" });
+        }
+        return dateStr;
+      } catch (e) {
+        return dateStr;
+      }
+    }
+
+    function getRandomMotivationalQuote() {
+      let idx;
+      do {
+        idx = Math.floor(Math.random() * MOTIVATIONAL_QUOTES.length);
+      } while (idx === AppState.lastQuoteIndex && MOTIVATIONAL_QUOTES.length > 1);
+      AppState.lastQuoteIndex = idx;
+      return MOTIVATIONAL_QUOTES[idx];
+    }
+
+    let toastTimer = null;
+    function showToast(message) {
+      const el = document.getElementById("toast-notification");
+      if (!el) return;
+      el.textContent = message;
+      el.classList.add("show");
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        el.classList.remove("show");
+      }, 3200);
+    }
+
+    // --- 5. GESTIÓN DE MODALES ACCESIBLES ---
+    let lastActiveElementBeforeModal = null;
+
+    function openModal(title, contentHtml, onConfirm = null, confirmText = "Guardar") {
+      lastActiveElementBeforeModal = document.activeElement;
+      const modal = document.getElementById("app-modal");
+      const titleElem = document.getElementById("modal-title-elem");
+      const bodyElem = document.getElementById("modal-body-elem");
+
+      titleElem.textContent = title;
+      bodyElem.innerHTML = contentHtml;
+
+      modal.classList.add("open");
+      modal.focus();
+
+      // Enlazar botón cerrar
+      const closeBtn = document.getElementById("modal-close-btn");
+      closeBtn.innerHTML = Icons.close(16);
+      closeBtn.onclick = () => closeModal();
+
+      // Botón cancelar si existe en contenido
+      const cancelBtn = bodyElem.querySelector(".btn-modal-cancel");
+      if (cancelBtn) {
+        cancelBtn.onclick = () => closeModal();
+      }
+
+      // Manejar confirmación si aplica
+      const form = bodyElem.querySelector("form");
+      if (form && onConfirm) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          onConfirm(form);
+        };
+      }
+    }
+
+    function closeModal() {
+      const modal = document.getElementById("app-modal");
+      modal.classList.remove("open");
+      if (lastActiveElementBeforeModal && typeof lastActiveElementBeforeModal.focus === "function") {
+        lastActiveElementBeforeModal.focus();
+      }
+    }
+
+    // Eventos de teclado para modal (Escape y clic en backdrop)
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        const modal = document.getElementById("app-modal");
+        if (modal && modal.classList.contains("open")) {
+          closeModal();
+        }
+      }
+    });
+
+    document.getElementById("app-modal").addEventListener("click", (e) => {
+      if (e.target.id === "app-modal") {
+        closeModal();
+      }
+    });
+
+    // --- 6. ENRUTADOR Y NAVEGACIÓN ---
+    function navigateTo(route, updateHistory = true) {
+      AppState.activeRoute = route;
+      if (updateHistory) {
+        window.location.hash = route;
+      }
+      renderApp();
+      window.scrollTo(0, 0);
+    }
+
+    window.addEventListener("hashchange", () => {
+      const hash = window.location.hash.replace("#", "") || "bienvenida";
+      if (hash !== AppState.activeRoute) {
+        AppState.activeRoute = hash;
+        renderApp();
+      }
+    });
+
+    // --- 7. RENDERIZADORES DE VISTAS ---
+
+    // Vista: Bienvenida
+    function renderBienvenida() {
+      const quote = getRandomMotivationalQuote();
+      return `
+        <div class="welcome-container">
+          <header class="welcome-header">
+            <div class="brand-mark">P</div>
+            <div>
+              <div class="brand-title">Puente Profesional</div>
+              <div style="font-size: 12.5px; color: var(--text-secondary);">Espacio de empleabilidad inicial y autogestión</div>
+            </div>
+          </header>
+
+          <main class="welcome-hero">
+            <div class="section-kicker">Tu punto de partida</div>
+            <h1 class="page-title" style="font-size: 38px; margin-bottom: 14px;">Tu primer empleo empieza con un primer paso</h1>
+            <p class="page-description" style="font-size: 16px; margin-bottom: 32px;">
+              Una plataforma estructurada, serena y sin juicios para estudiantes y recién egresados de cualquier disciplina que buscan su primera oportunidad profesional sin experiencia laboral formal.
+            </p>
+
+            <div class="welcome-quote-box">
+              <span class="welcome-quote-icon">${Icons.quote(22)}</span>
+              <span>${sanitizeText(quote)}</span>
+            </div>
+
+            <div class="welcome-grid">
+              <div class="welcome-feature">
+                <div class="welcome-feature-icon" style="background-color: #f7f7ee; color: var(--color-formacion);">
+                  ${Icons.bookOpen(20, 'var(--color-formacion)')}
+                </div>
+                <h3 class="card-title">1. Formación</h3>
+                <p class="card-meta">Registra cursos, certificaciones y aprendizajes personales con métricas de progreso real.</p>
+              </div>
+              <div class="welcome-feature">
+                <div class="welcome-feature-icon" style="background-color: #f8f3fa; color: var(--color-preparacion);">
+                  ${Icons.briefcase(20, 'var(--color-preparacion)')}
+                </div>
+                <h3 class="card-title">2. Preparación</h3>
+                <p class="card-meta">Construye tu currículum sin inventar logros, exhibe tu portafolio y practica entrevistas con el método STAR.</p>
+              </div>
+              <div class="welcome-feature">
+                <div class="welcome-feature-icon" style="background-color: #fcf9ef; color: var(--color-postulaciones);">
+                  ${Icons.clipboardCheck(20, 'var(--color-postulaciones)')}
+                </div>
+                <h3 class="card-title">3. Postulaciones</h3>
+                <p class="card-meta">Organiza tus candidaturas, fechas de seguimiento y estados sin perder el control ni la calma.</p>
+              </div>
+              <div class="welcome-feature">
+                <div class="welcome-feature-icon" style="background-color: #fcf2f7; color: var(--color-journal);">
+                  ${Icons.notebook(20, 'var(--color-journal)')}
+                </div>
+                <h3 class="card-title">4. Journal y Hábitos</h3>
+                <p class="card-meta">Reflexiona sobre tus avances diarios y cultiva hábitos positivos de búsqueda sin presiones ni culpa.</p>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
+              <button class="btn btn-primary" onclick="navigateTo('acceso')" style="padding: 12px 24px; font-size: 15px;">
+                Probar mi espacio &rarr;
+              </button>
+              <span style="font-size: 13px; color: var(--text-muted);">Sin registro obligatorio · Datos 100% locales en tu navegador</span>
+            </div>
+          </main>
+
+          <footer style="padding-top: 24px; border-top: 1px solid var(--border-subtle); font-size: 12.5px; color: var(--text-muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+            <span>Puente Profesional · Demo académica para estudiantes y egresados</span>
+            <span>Inspirado en la claridad de Notion</span>
+          </footer>
+        </div>
+      `;
+    }
+
+    // Vista: Acceso de Demostración
+    function renderAcceso() {
+      return `
+        <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background-color: var(--bg-secondary);">
+          <div class="access-container">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+              <div class="brand-mark">P</div>
+              <div>
+                <h2 style="font-size: 17px; font-weight: 700;">Acceso a la demostración</h2>
+                <span style="font-size: 12.5px; color: var(--text-secondary);">Puente Profesional</span>
+              </div>
+            </div>
+
+            <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 24px;">
+              Configura cómo deseas que te nombremos dentro de tu espacio personal de prueba.
+            </p>
+
+            <form id="form-access" onsubmit="handleAccessSubmit(event)">
+              <div class="form-group">
+                <label for="input-alias" class="form-label">Tu nombre o alias preferido</label>
+                <input type="text" id="input-alias" class="form-input" placeholder="Ej. Alex, Sofía o tu apodo" value="${sanitizeText(AppState.alias === 'Persona Demo' ? '' : AppState.alias)}" />
+                <div class="form-hint">Si lo dejas en blanco, usaremos "Persona Demo". Puedes cambiarlo cuando quieras.</div>
+              </div>
+
+              <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 24px; font-size: 12.5px; color: var(--text-secondary); display: flex; gap: 10px; align-items: flex-start;">
+                <span style="color: var(--text-muted); margin-top: 2px;">${Icons.info(16)}</span>
+                <div>
+                  <strong>Aviso de privacidad:</strong> Esta es una demostración académica con datos ficticios. No se requiere correo, contraseña ni conexión con servidores externos. Todo se almacena localmente en este navegador.
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button type="button" class="btn btn-secondary" onclick="navigateTo('bienvenida')">
+                  Volver a bienvenida
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  Entrar a la demo &rarr;
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleAccessSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById("input-alias");
+      const val = input ? input.value.trim() : "";
+      AppState.alias = val !== "" ? val : "Persona Demo";
+      StorageManager.set("alias", AppState.alias);
+      showToast(`¡Hola, ${AppState.alias}! Bienvenido/a a tu espacio.`);
+      navigateTo("dashboard");
+    }
+
+    // Shell de Workspace (Sidebar + Header + Contenido)
+    function renderWorkspaceShell(contentHtml, activeBreadcrumb) {
+      const activeRoute = AppState.activeRoute;
+      return `
+        <div class="app-workspace">
+          <!-- Backdrop para móvil -->
+          <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleMobileSidebar(false)"></div>
+
+          <!-- Barra lateral izquierda -->
+          <aside class="app-sidebar" id="app-sidebar">
+            <div class="sidebar-header">
+              <div class="brand-mark">P</div>
+              <div>
+                <div class="brand-title">Puente Profesional</div>
+                <div style="font-size: 11.5px; color: var(--text-muted);">Espacio Demo</div>
+              </div>
+            </div>
+
+            <div class="sidebar-user">
+              <span class="sidebar-user-name" title="${sanitizeText(AppState.alias)}">
+                ${Icons.user(16)}
+                <span>${sanitizeText(AppState.alias)}</span>
+              </span>
+              <button onclick="promptChangeAlias()" title="Editar alias" aria-label="Editar alias" style="color: var(--text-muted); padding: 4px; border-radius: var(--radius-sm); display: inline-flex;">
+                ${Icons.edit(14)}
+              </button>
+            </div>
+
+            <nav class="sidebar-nav" aria-label="Menú principal">
+              <button class="nav-item ${activeRoute === 'dashboard' ? 'active' : ''}" onclick="navigateTo('dashboard')">
+                <span class="nav-icon" style="color: var(--color-inicio);">${Icons.home(20, 'var(--color-inicio)')}</span>
+                <span>Inicio</span>
+              </button>
+              <button class="nav-item ${activeRoute === 'formacion' ? 'active' : ''}" onclick="navigateTo('formacion')">
+                <span class="nav-icon" style="color: var(--color-formacion);">${Icons.bookOpen(20, 'var(--color-formacion)')}</span>
+                <span>Formación</span>
+              </button>
+              <button class="nav-item ${activeRoute === 'preparacion' ? 'active' : ''}" onclick="navigateTo('preparacion')">
+                <span class="nav-icon" style="color: var(--color-preparacion);">${Icons.briefcase(20, 'var(--color-preparacion)')}</span>
+                <span>Preparación profesional</span>
+              </button>
+              <button class="nav-item ${activeRoute === 'postulaciones' ? 'active' : ''}" onclick="navigateTo('postulaciones')">
+                <span class="nav-icon" style="color: var(--color-postulaciones);">${Icons.clipboardCheck(20, 'var(--color-postulaciones)')}</span>
+                <span>Postulaciones</span>
+              </button>
+              <button class="nav-item ${activeRoute === 'journal' ? 'active' : ''}" onclick="navigateTo('journal')">
+                <span class="nav-icon" style="color: var(--color-journal);">${Icons.notebook(20, 'var(--color-journal)')}</span>
+                <span>Journal y Hábitos</span>
+              </button>
+            </nav>
+
+            <div class="sidebar-footer">
+              <button class="btn-exit-demo" onclick="handleExitDemo()">
+                ${Icons.logout(16)}
+                <span>Salir de la demo</span>
+              </button>
+              <button class="btn-reset-demo" onclick="confirmResetDemo()">
+                ${Icons.refresh(16)}
+                <span>Restablecer demo</span>
+              </button>
+            </div>
+          </aside>
+
+          <!-- Contenido central -->
+          <div class="app-main">
+            <header class="top-header">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="mobile-menu-btn" onclick="toggleMobileSidebar(true)" aria-label="Abrir menú de navegación">
+                  ${Icons.menu(20)}
+                </button>
+                <div class="breadcrumb">
+                  <span>Puente Profesional</span>
+                  <span aria-hidden="true">/</span>
+                  <span class="breadcrumb-current">${sanitizeText(activeBreadcrumb)}</span>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 12px; color: var(--text-muted); background: var(--bg-secondary); padding: 4px 8px; border-radius: var(--radius-sm);">
+                  Modo demostración
+                </span>
+              </div>
+            </header>
+
+            <main class="content-viewport">
+              ${contentHtml}
+            </main>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleMobileSidebar(open) {
+      const sidebar = document.getElementById("app-sidebar");
+      const backdrop = document.getElementById("sidebar-backdrop");
+      if (sidebar && backdrop) {
+        if (open) {
+          sidebar.classList.add("open");
+          backdrop.classList.add("open");
+        } else {
+          sidebar.classList.remove("open");
+          backdrop.classList.remove("open");
+        }
+      }
+    }
+
+    function promptChangeAlias() {
+      openModal(
+        "Cambiar alias de demostración",
+        `
+          <form onsubmit="saveAliasFromModal(event)">
+            <div class="form-group">
+              <label class="form-label" for="edit-alias-input">Nuevo nombre o alias</label>
+              <input type="text" id="edit-alias-input" class="form-input" value="${sanitizeText(AppState.alias)}" required />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Actualizar</button>
+            </div>
+          </form>
+        `
+      );
+    }
+
+    function saveAliasFromModal(e) {
+      e.preventDefault();
+      const input = document.getElementById("edit-alias-input");
+      if (input && input.value.trim()) {
+        AppState.alias = input.value.trim();
+        StorageManager.set("alias", AppState.alias);
+        closeModal();
+        showToast("Alias actualizado correctamente.");
+        renderApp();
+      }
+    }
+
+    function handleExitDemo() {
+      showToast("Has salido de la sesión demo. Tus datos se conservan en este navegador.");
+      navigateTo("bienvenida");
+    }
+
+    function confirmResetDemo() {
+      openModal(
+        "¿Restablecer todos los datos de la demo?",
+        `
+          <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 16px;">
+            Esta acción eliminará todos los registros que hayas agregado, editado o completado (cursos, currículum, portafolio, postulaciones, notas y hábitos).
+          </p>
+          <p style="font-size: 13px; color: #b91c1c; margin-bottom: 20px;">
+            Esta acción es irreversible y devolverá la demo a su estado inicial de primer uso.
+          </p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+            <button type="button" class="btn btn-danger" onclick="executeResetDemo()">Sí, restablecer datos</button>
+          </div>
+        `
+      );
+    }
+
+    function executeResetDemo() {
+      StorageManager.resetAll();
+      closeModal();
+      showToast("Datos restablecidos al estado inicial.");
+      loadOrCreateInitialData();
+      navigateTo("bienvenida");
+    }
+
+    // --- 8. VISTA: DASHBOARD ---
+    function renderDashboardView() {
+      const totalCursos = AppState.formacion.length;
+      const cursosCompletados = AppState.formacion.filter(c => c.estado === "completado").length;
+      const totalPostulaciones = AppState.postulaciones.length;
+      
+      const todayStr = getTodayLocalDateString();
+      const habitosHoy = AppState.habitos.registro[todayStr] || [];
+      const totalHabitos = AppState.habitos.lista.length;
+      const habitosCompletadosHoy = habitosHoy.length;
+
+      let nextStepTitle = "Continúa nutriendo tu formación";
+      let nextStepDesc = "Revisa tu catálogo de cursos y certificaciones para sumar nuevas habilidades a tu currículum.";
+      let nextStepAction = () => navigateTo('formacion');
+      let nextStepBtnLabel = "Ir a Formación";
+
+      if (totalCursos === 0) {
+        nextStepTitle = "Registra tu primer curso o certificación";
+        nextStepDesc = "Todo aprendizaje cuenta: agrega tus materias optativas, talleres o cursos en línea en la sección Formación.";
+        nextStepAction = () => navigateTo('formacion');
+        nextStepBtnLabel = "Agregar curso";
+      } else if (!AppState.cv.perfil || AppState.cv.perfil.trim().length < 20) {
+        nextStepTitle = "Redacta un perfil profesional honesto";
+        nextStepDesc = "Completa tu resumen sin inventar experiencia: resalta tus proyectos académicos y habilidades transferibles.";
+        nextStepAction = () => navigateTo('preparacion');
+        nextStepBtnLabel = "Completar CV";
+      } else if (totalPostulaciones === 0) {
+        nextStepTitle = "Registra tu primera postulación de prueba";
+        nextStepDesc = "Lleva el control de una vacante que te interese en la sección de Postulaciones para organizar tus seguimientos.";
+        nextStepAction = () => navigateTo('postulaciones');
+        nextStepBtnLabel = "Registrar postulación";
+      } else if (habitosCompletadosHoy === 0 && totalHabitos > 0) {
+        nextStepTitle = "Dedica un momento a tus hábitos de hoy";
+        nextStepDesc = "Un pequeño paso diario hace la diferencia: completa uno de tus hábitos conscientes para mantener el ritmo.";
+        nextStepAction = () => navigateTo('journal');
+        nextStepBtnLabel = "Ver hábitos";
+      }
+
+      return `
+        <div>
+          <div class="section-kicker">Tu espacio de autogestión</div>
+          <h1 class="page-title">Hola, ${sanitizeText(AppState.alias)}</h1>
+          <p class="page-description">
+            Aquí tienes un panorama claro y ordenado de tu preparación profesional hacia tu primer empleo.
+          </p>
+
+          <!-- Métricas principales con iconos SVG de línea -->
+          <div class="dashboard-metrics">
+            <div class="metric-card">
+              <div class="metric-label">
+                <span style="color: var(--color-formacion);">${Icons.bookOpen(18, 'var(--color-formacion)')}</span>
+                <span>Cursos completados</span>
+              </div>
+              <div class="metric-value">${cursosCompletados} <span style="font-size: 14px; color: var(--text-muted); font-weight: 400;">/ ${totalCursos}</span></div>
+              <div class="card-meta">${totalCursos > 0 ? Math.round((cursosCompletados / totalCursos) * 100) : 0}% de avance global</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-label">
+                <span style="color: var(--color-postulaciones);">${Icons.clipboardCheck(18, 'var(--color-postulaciones)')}</span>
+                <span>Postulaciones activas</span>
+              </div>
+              <div class="metric-value">${totalPostulaciones}</div>
+              <div class="card-meta">${AppState.postulaciones.filter(p => p.estado === 'entrevista').length} en etapa de entrevista</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-label">
+                <span style="color: var(--color-journal);">${Icons.notebook(18, 'var(--color-journal)')}</span>
+                <span>Hábitos realizados hoy</span>
+              </div>
+              <div class="metric-value">${habitosCompletadosHoy} <span style="font-size: 14px; color: var(--text-muted); font-weight: 400;">/ ${totalHabitos}</span></div>
+              <div class="card-meta">${habitosCompletadosHoy === totalHabitos && totalHabitos > 0 ? 'Constancia completada hoy' : 'A tu propio ritmo'}</div>
+            </div>
+          </div>
+
+          <!-- Siguiente paso sugerido -->
+          <div class="next-step-card">
+            <div class="next-step-content">
+              <div style="font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-inicio); font-weight: 700; margin-bottom: 2px;">
+                Siguiente paso sugerido
+              </div>
+              <h3>${sanitizeText(nextStepTitle)}</h3>
+              <p>${sanitizeText(nextStepDesc)}</p>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="(${nextStepAction.toString()})()">
+              ${sanitizeText(nextStepBtnLabel)} &rarr;
+            </button>
+          </div>
+
+          <!-- Accesos directos a las 4 áreas con iconos coherentes -->
+          <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 14px; color: var(--text-primary);">Explorar áreas de trabajo</h2>
+          <div class="areas-grid">
+            <div class="area-nav-card">
+              <div>
+                <div class="area-card-icon" style="background-color: #f7f7ee; color: var(--color-formacion);">
+                  ${Icons.bookOpen(22, 'var(--color-formacion)')}
+                </div>
+                <h3 class="card-title">Formación</h3>
+                <p class="card-meta">Cursos, diplomados y certificaciones con seguimiento de progreso y notas personales.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm" style="margin-top: 16px;" onclick="navigateTo('formacion')">
+                Abrir formación &rarr;
+              </button>
+            </div>
+
+            <div class="area-nav-card">
+              <div>
+                <div class="area-card-icon" style="background-color: #f8f3fa; color: var(--color-preparacion);">
+                  ${Icons.briefcase(22, 'var(--color-preparacion)')}
+                </div>
+                <h3 class="card-title">Preparación profesional</h3>
+                <p class="card-meta">Currículum sin inventar experiencia, portafolio de evidencias y simulador de entrevistas STAR.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm" style="margin-top: 16px;" onclick="navigateTo('preparacion')">
+                Abrir preparación &rarr;
+              </button>
+            </div>
+
+            <div class="area-nav-card">
+              <div>
+                <div class="area-card-icon" style="background-color: #fcf9ef; color: var(--color-postulaciones);">
+                  ${Icons.clipboardCheck(22, 'var(--color-postulaciones)')}
+                </div>
+                <h3 class="card-title">Postulaciones</h3>
+                <p class="card-meta">Seguimiento ordenado de vacantes, entrevistas pendientes y próximas fechas clave.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm" style="margin-top: 16px;" onclick="navigateTo('postulaciones')">
+                Abrir postulaciones &rarr;
+              </button>
+            </div>
+
+            <div class="area-nav-card">
+              <div>
+                <div class="area-card-icon" style="background-color: #fcf2f7; color: var(--color-journal);">
+                  ${Icons.notebook(22, 'var(--color-journal)')}
+                </div>
+                <h3 class="card-title">Journal y Hábitos</h3>
+                <p class="card-meta">Espacio reflexivo personal y registro diario de micro-hábitos con fecha local sin penalizaciones.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm" style="margin-top: 16px;" onclick="navigateTo('journal')">
+                Abrir journal &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- Invitación a escribir en el Journal -->
+          <div class="journal-prompt-box">
+            <div>
+              <div style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px;">
+                ¿Cómo te sentiste hoy en tu proceso de búsqueda?
+              </div>
+              <div style="font-size: 13px; color: var(--text-secondary);">
+                Escribir tus reflexiones te ayuda a clarificar aprendizajes y mantener la calma. Tus entradas son privadas.
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="navigateTo('journal')">
+              Escribir en mi journal
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // --- 9. VISTA: FORMACIÓN ---
+    function renderFormacionView() {
+      const items = AppState.formacion;
+      const total = items.length;
+      const completados = items.filter(i => i.estado === "completado").length;
+      const porcentaje = total > 0 ? Math.round((completados / total) * 100) : 0;
+
+      let filtered = items.filter(item => {
+        const matchesEstado = AppState.filtros.formacionEstado === "todos" || item.estado === AppState.filtros.formacionEstado;
+        const q = AppState.filtros.formacionBusqueda.toLowerCase();
+        const matchesQuery = item.titulo.toLowerCase().includes(q) || (item.institucion && item.institucion.toLowerCase().includes(q));
+        return matchesEstado && matchesQuery;
+      });
+
+      let itemsHtml = "";
+      if (filtered.length === 0) {
+        itemsHtml = `
+          <div class="empty-state">
+            <div class="empty-state-icon">${Icons.bookOpen(32, 'var(--text-muted)')}</div>
+            <div class="empty-state-title">No hay registros de formación que coincidan</div>
+            <div class="empty-state-desc">
+              ${total === 0 ? 'Agrega tu primer curso, diplomado o certificación para comenzar a medir tu avance.' : 'Prueba cambiando los filtros o el término de búsqueda.'}
+            </div>
+            ${total === 0 ? '<button class="btn btn-primary" onclick="openAddCourseModal()">Agregar primer curso</button>' : ''}
+          </div>
+        `;
+      } else {
+        itemsHtml = `
+          <div class="items-grid">
+            ${filtered.map(item => `
+              <div class="course-card" id="course-card-${item.id}">
+                <div class="course-header">
+                  <div>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                      <span class="status-badge status-${item.estado}">
+                        ${item.estado === 'completado' ? `${Icons.check(12)} Completado` : item.estado === 'en_curso' ? 'En curso' : 'Pendiente'}
+                      </span>
+                      <span style="font-size: 12px; color: var(--text-muted); text-transform: capitalize;">${item.tipo}</span>
+                    </div>
+                    <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px;">
+                      ${sanitizeText(item.titulo)}
+                    </h3>
+                    <div style="font-size: 13px; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                      <span style="color: var(--text-muted);">${Icons.building(14)}</span>
+                      <span>${sanitizeText(item.institucion || 'Institución no especificada')}</span>
+                      ${item.fechaInicio ? `<span>· Inicio: ${formatDisplayDate(item.fechaInicio)}</span>` : ''}
+                      ${item.fechaFin ? `<span>· Fin: ${formatDisplayDate(item.fechaFin)}</span>` : ''}
+                    </div>
+                  </div>
+
+                  <div class="course-actions">
+                    <button class="btn btn-secondary btn-sm" onclick="openEditCourseModal('${item.id}')" title="Editar formación" aria-label="Editar formación">
+                      ${Icons.edit(14)}
+                    </button>
+                    <button class="btn btn-secondary btn-sm" onclick="confirmDeleteCourse('${item.id}')" title="Eliminar formación" aria-label="Eliminar formación">
+                      ${Icons.trash(14)}
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Comprobante simulado -->
+                <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 12.5px; display: flex; align-items: center; justify-content: space-between;">
+                  <div>
+                    <span style="color: var(--text-muted);">Comprobante:</span>
+                    <strong>${item.comprobanteNombre ? sanitizeText(item.comprobanteNombre) : 'Sin comprobante adjunto'}</strong>
+                  </div>
+                  <div>
+                    ${item.comprobanteNombre ? `
+                      <button class="btn btn-secondary btn-sm" style="padding: 2px 6px; font-size: 11px;" onclick="removeCourseProof('${item.id}')">Quitar comprobante</button>
+                    ` : `
+                      <label class="btn btn-secondary btn-sm" style="padding: 2px 6px; font-size: 11px; cursor: pointer;">
+                        Adjuntar (PDF/Img)
+                        <input type="file" accept=".pdf,image/*" style="display: none;" onchange="handleSimulatedProofUpload(event, '${item.id}')" />
+                      </label>
+                    `}
+                  </div>
+                </div>
+
+                <!-- Notas personales con autoguardado -->
+                <div>
+                  <label class="form-label" style="font-size: 12px; color: var(--text-muted);" for="notes-${item.id}">
+                    Notas personales y aprendizajes clave
+                  </label>
+                  <textarea id="notes-${item.id}" class="form-textarea" style="min-height: 56px; font-size: 13px;" placeholder="¿Qué conceptos clave dominaste en este curso?" oninput="handleAutoSaveCourseNotes('${item.id}', this.value)">${sanitizeText(item.notes || item.notas || '')}</textarea>
+                  <div class="auto-save-indicator" id="indicator-${item.id}">
+                    <span>Guardado automático al escribir</span>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      return `
+        <div>
+          <div class="section-kicker" style="color: var(--color-formacion);">Área 1</div>
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 8px;">
+            <h1 class="page-title" style="margin-bottom: 0;">Formación y Certificaciones</h1>
+            <button class="btn btn-primary" onclick="openAddCourseModal()">
+              + Agregar formación
+            </button>
+          </div>
+          <p class="page-description">
+            Organiza tus estudios, diplomados y certificaciones. Acompaña cada registro con notas personales para demostrar tu aprendizaje continuo.
+          </p>
+
+          <!-- Barra de progreso general -->
+          <div class="progress-bar-container">
+            <div>
+              <div style="font-size: 13px; font-weight: 600; color: var(--text-primary);">Progreso de cursos completados</div>
+              <div style="font-size: 12px; color: var(--text-secondary);">${completados} de ${total} registros terminados</div>
+            </div>
+            <div class="progress-track" aria-label="Progreso general de formación">
+              <div class="progress-fill" style="width: ${porcentaje}%;"></div>
+            </div>
+            <div class="progress-percentage">${porcentaje}%</div>
+          </div>
+
+          <!-- Controles de búsqueda y filtros -->
+          <div class="controls-bar">
+            <div class="search-box">
+              <input type="text" class="form-input" placeholder="Buscar por título o institución..." value="${sanitizeText(AppState.filtros.formacionBusqueda)}" oninput="handleFormacionSearch(this.value)" />
+            </div>
+
+            <div class="filter-group">
+              <select class="form-select" onchange="handleFormacionFilter(this.value)">
+                <option value="todos" ${AppState.filtros.formacionEstado === 'todos' ? 'selected' : ''}>Todos los estados</option>
+                <option value="en_curso" ${AppState.filtros.formacionEstado === 'en_curso' ? 'selected' : ''}>En curso</option>
+                <option value="completado" ${AppState.filtros.formacionEstado === 'completado' ? 'selected' : ''}>Completado</option>
+                <option value="pendiente" ${AppState.filtros.formacionEstado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Lista de cursos -->
+          ${itemsHtml}
+        </div>
+      `;
+    }
+
+    function handleFormacionSearch(val) {
+      AppState.filtros.formacionBusqueda = val;
+      renderApp();
+    }
+
+    function handleFormacionFilter(val) {
+      AppState.filtros.formacionEstado = val;
+      renderApp();
+    }
+
+    let notesDebounceTimers = {};
+    function handleAutoSaveCourseNotes(id, text) {
+      const indicator = document.getElementById(`indicator-${id}`);
+      if (indicator) {
+        indicator.textContent = "Guardando...";
+        indicator.classList.remove("saved");
+      }
+
+      if (notesDebounceTimers[id]) clearTimeout(notesDebounceTimers[id]);
+      notesDebounceTimers[id] = setTimeout(() => {
+        const item = AppState.formacion.find(c => c.id === id);
+        if (item) {
+          item.notas = text;
+          saveAllState();
+          if (indicator) {
+            indicator.textContent = "Guardado ✓";
+            indicator.classList.add("saved");
+          }
+        }
+      }, 600);
+    }
+
+    function handleSimulatedProofUpload(event, id) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const item = AppState.formacion.find(c => c.id === id);
+      if (item) {
+        item.comprobanteNombre = file.name;
+        saveAllState();
+        showToast(`Comprobante "${file.name}" registrado (nota: solo se guarda el nombre con fines demostrativos).`);
+        renderApp();
+      }
+    }
+
+    function removeCourseProof(id) {
+      const item = AppState.formacion.find(c => c.id === id);
+      if (item) {
+        item.comprobanteNombre = "";
+        saveAllState();
+        showToast("Comprobante retirado.");
+        renderApp();
+      }
+    }
+
+    function openAddCourseModal() {
+      openModal(
+        "Agregar formación o certificación",
+        `
+          <form id="form-course">
+            <div class="form-group">
+              <label class="form-label" for="course-title">Título <span class="req">*</span></label>
+              <input type="text" id="course-title" class="form-input" placeholder="Ej. Fundamentos de Gestión de Proyectos" required />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="course-type">Tipo</label>
+                <select id="course-type" class="form-select">
+                  <option value="curso">Curso</option>
+                  <option value="diplomado">Diplomado</option>
+                  <option value="certificacion">Certificación</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="course-status">Estado</label>
+                <select id="course-status" class="form-select">
+                  <option value="en_curso">En curso</option>
+                  <option value="completado">Completado</option>
+                  <option value="pendiente">Pendiente</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="course-inst">Institución u Organización</label>
+              <input type="text" id="course-inst" class="form-input" placeholder="Ej. Universidad Nacional / Coursera / Platzi" />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="course-start">Fecha de inicio</label>
+                <input type="date" id="course-start" class="form-input" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="course-end">Fecha de término</label>
+                <input type="date" id="course-end" class="form-input" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="course-notes">Descripción o notas iniciales</label>
+              <textarea id="course-notes" class="form-textarea" placeholder="¿Qué temas aborda este programa?"></textarea>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Guardar formación</button>
+            </div>
+          </form>
+        `,
+        (form) => {
+          const title = form.querySelector("#course-title").value.trim();
+          if (!title) return;
+          const newCourse = {
+            id: "f_" + Date.now(),
+            titulo: title,
+            tipo: form.querySelector("#course-type").value,
+            estado: form.querySelector("#course-status").value,
+            institucion: form.querySelector("#course-inst").value.trim(),
+            fechaInicio: form.querySelector("#course-start").value,
+            fechaFin: form.querySelector("#course-end").value,
+            notas: form.querySelector("#course-notes").value.trim(),
+            comprobanteNombre: ""
+          };
+          AppState.formacion.unshift(newCourse);
+          saveAllState();
+          closeModal();
+          showToast("Formación agregada exitosamente.");
+          renderApp();
+        }
+      );
+    }
+
+    function openEditCourseModal(id) {
+      const item = AppState.formacion.find(c => c.id === id);
+      if (!item) return;
+
+      openModal(
+        "Editar formación",
+        `
+          <form id="form-edit-course">
+            <div class="form-group">
+              <label class="form-label" for="edit-course-title">Título <span class="req">*</span></label>
+              <input type="text" id="edit-course-title" class="form-input" value="${sanitizeText(item.titulo)}" required />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="edit-course-type">Tipo</label>
+                <select id="edit-course-type" class="form-select">
+                  <option value="curso" ${item.tipo === 'curso' ? 'selected' : ''}>Curso</option>
+                  <option value="diplomado" ${item.tipo === 'diplomado' ? 'selected' : ''}>Diplomado</option>
+                  <option value="certificacion" ${item.tipo === 'certificacion' ? 'selected' : ''}>Certificación</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="edit-course-status">Estado</label>
+                <select id="edit-course-status" class="form-select">
+                  <option value="en_curso" ${item.estado === 'en_curso' ? 'selected' : ''}>En curso</option>
+                  <option value="completado" ${item.estado === 'completado' ? 'selected' : ''}>Completado</option>
+                  <option value="pendiente" ${item.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="edit-course-inst">Institución u Organización</label>
+              <input type="text" id="edit-course-inst" class="form-input" value="${sanitizeText(item.institucion || '')}" />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="edit-course-start">Fecha de inicio</label>
+                <input type="date" id="edit-course-start" class="form-input" value="${item.fechaInicio || ''}" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="edit-course-end">Fecha de término</label>
+                <input type="date" id="edit-course-end" class="form-input" value="${item.fechaFin || ''}" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="edit-course-notes">Descripción o notas</label>
+              <textarea id="edit-course-notes" class="form-textarea">${sanitizeText(item.notas || '')}</textarea>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Actualizar cambios</button>
+            </div>
+          </form>
+        `,
+        (form) => {
+          const title = form.querySelector("#edit-course-title").value.trim();
+          if (!title) return;
+          item.titulo = title;
+          item.tipo = form.querySelector("#edit-course-type").value;
+          item.estado = form.querySelector("#edit-course-status").value;
+          item.institucion = form.querySelector("#edit-course-inst").value.trim();
+          item.fechaInicio = form.querySelector("#edit-course-start").value;
+          item.fechaFin = form.querySelector("#edit-course-end").value;
+          item.notas = form.querySelector("#edit-course-notes").value.trim();
+          saveAllState();
+          closeModal();
+          showToast("Formación actualizada.");
+          renderApp();
+        }
+      );
+    }
+
+    function confirmDeleteCourse(id) {
+      const item = AppState.formacion.find(c => c.id === id);
+      if (!item) return;
+      openModal(
+        "Confirmar eliminación",
+        `
+          <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 20px;">
+            ¿Deseas eliminar el registro <strong>"${sanitizeText(item.titulo)}"</strong>? Esta acción no se puede deshacer.
+          </p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+            <button type="button" class="btn btn-danger" onclick="deleteCourse('${id}')">Eliminar definitivamente</button>
+          </div>
+        `
+      );
+    }
+
+    function deleteCourse(id) {
+      AppState.formacion = AppState.formacion.filter(c => c.id !== id);
+      saveAllState();
+      closeModal();
+      showToast("Registro eliminado.");
+      renderApp();
+    }
+
+    // --- 10. VISTA: PREPARACIÓN PROFESIONAL (CV, PORTAFOLIO, ENTREVISTAS) ---
+    let activePrepTab = "cv";
+
+    function renderPreparacionView() {
+      let tabContent = "";
+      if (activePrepTab === "cv") {
+        tabContent = renderCvSubTab();
+      } else if (activePrepTab === "portafolio") {
+        tabContent = renderPortafolioSubTab();
+      } else {
+        tabContent = renderEntrevistasSubTab();
+      }
+
+      return `
+        <div>
+          <div class="section-kicker" style="color: var(--color-preparacion);">Área 2</div>
+          <h1 class="page-title">Preparación Profesional</h1>
+          <p class="page-description">
+            Estructura tus herramientas de empleabilidad: un currículum honesto basado en competencias, un portafolio de evidencias y entrenamiento para entrevistas con el método STAR.
+          </p>
+
+          <!-- Barra de pestañas con iconos semánticos de línea -->
+          <div class="tab-bar" role="tablist">
+            <button class="tab-btn ${activePrepTab === 'cv' ? 'active' : ''}" role="tab" onclick="switchPrepTab('cv')">
+              ${Icons.fileText(18)}
+              <span>Currículum Vitae</span>
+            </button>
+            <button class="tab-btn ${activePrepTab === 'portafolio' ? 'active' : ''}" role="tab" onclick="switchPrepTab('portafolio')">
+              ${Icons.folder(18)}
+              <span>Portafolio de Proyectos</span>
+            </button>
+            <button class="tab-btn ${activePrepTab === 'entrevistas' ? 'active' : ''}" role="tab" onclick="switchPrepTab('entrevistas')">
+              ${Icons.messageSquare(18)}
+              <span>Banco de Entrevistas STAR</span>
+            </button>
+          </div>
+
+          <!-- Contenido de pestaña -->
+          <div>
+            ${tabContent}
+          </div>
+        </div>
+      `;
+    }
+
+    function switchPrepTab(tab) {
+      activePrepTab = tab;
+      renderApp();
+    }
+
+    // Sub-pestaña A: Currículum
+    function renderCvSubTab() {
+      const cv = AppState.cv;
+      return `
+        <div class="controls-bar" style="margin-bottom: 20px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="color: var(--color-postulaciones);">${Icons.lightbulb(16)}</span>
+            <span style="font-size: 13px; color: var(--text-secondary);">
+              <strong>Orientación:</strong> Si no tienes experiencia laboral formal, destaca proyectos de aula, voluntariado y roles estudiantiles. No inventes cargos; describe lo que aprendiste y resolviste.
+            </span>
+          </div>
+          <div>
+            <button class="btn btn-primary" onclick="window.print()">
+              ${Icons.printer(16)}
+              <span>Imprimir / Guardar como PDF</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="cv-layout">
+          <!-- Panel de Edición -->
+          <div class="cv-editor-panel notion-card">
+            <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 16px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px;">
+              Editar contenido de tu CV
+            </h3>
+
+            <div class="form-group">
+              <label class="form-label" for="cv-input-nombre">Nombre completo</label>
+              <input type="text" id="cv-input-nombre" class="form-input" value="${sanitizeText(cv.nombre)}" oninput="updateCvField('nombre', this.value)" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cv-input-contacto">Datos de contacto (Ubicación, correo, LinkedIn)</label>
+              <input type="text" id="cv-input-contacto" class="form-input" value="${sanitizeText(cv.contacto)}" oninput="updateCvField('contacto', this.value)" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cv-input-perfil">Perfil profesional honesto</label>
+              <textarea id="cv-input-perfil" class="form-textarea" style="min-height: 80px;" oninput="updateCvField('perfil', this.value)">${sanitizeText(cv.perfil)}</textarea>
+              <div class="form-hint">Sintetiza tus intereses, formación clave y enfoque metodológico.</div>
+            </div>
+
+            <!-- Bloques de Formación -->
+            <div style="margin-bottom: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <label class="form-label" style="margin-bottom: 0;">Formación académica</label>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="openAddCvEducationModal()">+ Agregar</button>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                ${cv.formaciones.map((f, idx) => `
+                  <div style="background: var(--bg-secondary); padding: 8px 12px; border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+                    <div>
+                      <strong>${sanitizeText(f.titulo)}</strong> · ${sanitizeText(f.institucion)} (${sanitizeText(f.anio)})
+                    </div>
+                    <button class="btn btn-secondary btn-sm" style="padding: 2px 6px;" onclick="removeCvEducation(${idx})" title="Quitar bloque" aria-label="Quitar bloque de formación">
+                      ${Icons.close(12)}
+                    </button>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Bloques de Experiencia -->
+            <div style="margin-bottom: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <label class="form-label" style="margin-bottom: 0;">Experiencias relevantes (Proyectos / Voluntariado)</label>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="openAddCvExperienceModal()">+ Agregar</button>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                ${cv.experiencias.map((e, idx) => `
+                  <div style="background: var(--bg-secondary); padding: 8px 12px; border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: flex-start; font-size: 13px;">
+                    <div>
+                      <strong>${sanitizeText(e.rol)}</strong> · ${sanitizeText(e.org)}
+                      <div style="font-size: 11.5px; color: var(--text-muted);">${sanitizeText(e.periodo)} · Tipo: ${sanitizeText(e.tipo)}</div>
+                      <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">${sanitizeText(e.descripcion)}</div>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" style="padding: 2px 6px;" onclick="removeCvExperience(${idx})" title="Quitar experiencia" aria-label="Quitar experiencia">
+                      ${Icons.close(12)}
+                    </button>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cv-input-skills">Habilidades (separadas por comas)</label>
+              <input type="text" id="cv-input-skills" class="form-input" value="${sanitizeText(cv.habilidades.join(', '))}" onchange="updateCvSkills(this.value)" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cv-input-idiomas">Idiomas (separados por comas)</label>
+              <input type="text" id="cv-input-idiomas" class="form-input" value="${sanitizeText(cv.idiomas.join(', '))}" onchange="updateCvIdiomas(this.value)" />
+            </div>
+
+            <!-- Checklist persistente -->
+            <div class="cv-checklist">
+              <h4 style="font-size: 13px; font-weight: 600; margin-bottom: 10px;">Checklist de calidad del currículum</h4>
+              <label class="checklist-item">
+                <input type="checkbox" ${cv.checklist.claridad ? 'checked' : ''} onchange="toggleChecklistItem('claridad')" />
+                <span>Perfil claro y sin clichés vacíos</span>
+              </label>
+              <label class="checklist-item">
+                <input type="checkbox" ${cv.checklist.ortografia ? 'checked' : ''} onchange="toggleChecklistItem('ortografia')" />
+                <span>Ortografía y puntuación minuciosamente revisadas</span>
+              </label>
+              <label class="checklist-item">
+                <input type="checkbox" ${cv.checklist.habilidades ? 'checked' : ''} onchange="toggleChecklistItem('habilidades')" />
+                <span>Habilidades sustentadas en proyectos reales</span>
+              </label>
+              <label class="checklist-item">
+                <input type="checkbox" ${cv.checklist.evidencias ? 'checked' : ''} onchange="toggleChecklistItem('evidencias')" />
+                <span>Datos de contacto y enlaces verificados</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Vista Previa Imprimible (Notion Style) -->
+          <div>
+            <div style="font-size: 12.5px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px;">
+              VISTA PREVIA DE IMPRESIÓN (A4)
+            </div>
+            <div class="cv-preview-paper" id="cv-printable-area">
+              <div class="cv-preview-header">
+                <h1 class="cv-preview-name">${sanitizeText(cv.nombre || 'Nombre y Apellidos')}</h1>
+                <div class="cv-preview-contact">${sanitizeText(cv.contacto || 'Ciudad · Correo · Teléfono · Enlace')}</div>
+              </div>
+
+              <div class="cv-preview-section">
+                <h2 class="cv-preview-section-title">Perfil</h2>
+                <p style="text-align: justify; color: var(--text-primary); font-size: 13px;">
+                  ${sanitizeText(cv.perfil || 'Describe aquí tu perfil formativo y vocacional...')}
+                </p>
+              </div>
+
+              <div class="cv-preview-section">
+                <h2 class="cv-preview-section-title">Formación Académica</h2>
+                ${cv.formaciones.map(f => `
+                  <div style="margin-bottom: 8px;">
+                    <div style="display: flex; justify-content: space-between; font-weight: 600;">
+                      <span>${sanitizeText(f.titulo)}</span>
+                      <span style="font-size: 12px; color: var(--text-secondary);">${sanitizeText(f.anio)}</span>
+                    </div>
+                    <div style="font-size: 12.5px; color: var(--text-secondary);">${sanitizeText(f.institucion)}</div>
+                  </div>
+                `).join('')}
+              </div>
+
+              <div class="cv-preview-section">
+                <h2 class="cv-preview-section-title">Proyectos Relevantes y Experiencia</h2>
+                ${cv.experiencias.map(e => `
+                  <div style="margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; font-weight: 600;">
+                      <span>${sanitizeText(e.rol)} — ${sanitizeText(e.org)}</span>
+                      <span style="font-size: 12px; color: var(--text-secondary);">${sanitizeText(e.periodo)}</span>
+                    </div>
+                    <div style="font-size: 12.5px; color: var(--text-primary); margin-top: 2px;">
+                      ${sanitizeText(e.descripcion)}
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+
+              <div class="cv-preview-section">
+                <h2 class="cv-preview-section-title">Competencias y Habilidades</h2>
+                <div style="font-size: 12.5px; color: var(--text-primary); line-height: 1.6;">
+                  ${cv.habilidades.map(h => `<span style="display: inline-block; margin-right: 12px;">• ${sanitizeText(h)}</span>`).join('')}
+                </div>
+              </div>
+
+              <div class="cv-preview-section">
+                <h2 class="cv-preview-section-title">Idiomas</h2>
+                <div style="font-size: 12.5px; color: var(--text-primary);">
+                  ${cv.idiomas.join(' · ')}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function updateCvField(field, val) {
+      AppState.cv[field] = val;
+      saveAllState();
+      const previewName = document.querySelector(".cv-preview-name");
+      const previewContact = document.querySelector(".cv-preview-contact");
+      if (field === "nombre" && previewName) previewName.textContent = val || "Nombre y Apellidos";
+      if (field === "contacto" && previewContact) previewContact.textContent = val || "Contacto";
+    }
+
+    function updateCvSkills(str) {
+      AppState.cv.habilidades = str.split(",").map(s => s.trim()).filter(Boolean);
+      saveAllState();
+      renderApp();
+    }
+
+    function updateCvIdiomas(str) {
+      AppState.cv.idiomas = str.split(",").map(s => s.trim()).filter(Boolean);
+      saveAllState();
+      renderApp();
+    }
+
+    function toggleChecklistItem(key) {
+      AppState.cv.checklist[key] = !AppState.cv.checklist[key];
+      saveAllState();
+    }
+
+    function openAddCvEducationModal() {
+      openModal(
+        "Agregar bloque de formación al CV",
+        `
+          <form id="form-cv-edu">
+            <div class="form-group">
+              <label class="form-label" for="edu-title">Título o grado <span class="req">*</span></label>
+              <input type="text" id="edu-title" class="form-input" placeholder="Ej. Licenciatura / Diplomado / Bachillerato" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="edu-inst">Institución <span class="req">*</span></label>
+              <input type="text" id="edu-inst" class="form-input" placeholder="Ej. Universidad / Centro Educativo" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="edu-period">Periodo</label>
+              <input type="text" id="edu-period" class="form-input" placeholder="Ej. 2021 - 2025" />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Agregar</button>
+            </div>
+          </form>
+        `,
+        (form) => {
+          const t = form.querySelector("#edu-title").value.trim();
+          const i = form.querySelector("#edu-inst").value.trim();
+          const p = form.querySelector("#edu-period").value.trim();
+          if (!t || !i) return;
+          AppState.cv.formaciones.push({ titulo: t, institucion: i, anio: p });
+          saveAllState();
+          closeModal();
+          showToast("Formación agregada al CV.");
+          renderApp();
+        }
+      );
+    }
+
+    function removeCvEducation(index) {
+      AppState.cv.formaciones.splice(index, 1);
+      saveAllState();
+      renderApp();
+    }
+
+    function openAddCvExperienceModal() {
+      openModal(
+        "Agregar experiencia o proyecto al CV",
+        `
+          <form id="form-cv-exp">
+            <div class="form-group">
+              <label class="form-label" for="exp-rol">Rol o función <span class="req">*</span></label>
+              <input type="text" id="exp-rol" class="form-input" placeholder="Ej. Coordinador de Proyecto / Voluntario" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="exp-org">Organización o grupo <span class="req">*</span></label>
+              <input type="text" id="exp-org" class="form-input" placeholder="Ej. Colectivo Estudiantil / Asignatura" required />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="exp-type">Tipo</label>
+                <select id="exp-type" class="form-select">
+                  <option value="academico">Proyecto Académico</option>
+                  <option value="voluntariado">Voluntariado</option>
+                  <option value="extracurricular">Extracurricular</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="exp-period">Periodo</label>
+                <input type="text" id="exp-period" class="form-input" placeholder="Ej. 2024" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="exp-desc">Descripción (Qué resolviste y qué resultado obtuviste) <span class="req">*</span></label>
+              <textarea id="exp-desc" class="form-textarea" placeholder="Describe acciones concretas..." required></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Agregar</button>
+            </div>
+          </form>
+        `,
+        (form) => {
+          const r = form.querySelector("#exp-rol").value.trim();
+          const o = form.querySelector("#exp-org").value.trim();
+          const t = form.querySelector("#exp-type").value;
+          const p = form.querySelector("#exp-period").value.trim();
+          const d = form.querySelector("#exp-desc").value.trim();
+          if (!r || !o || !d) return;
+          AppState.cv.experiencias.push({ rol: r, org: o, tipo: t, periodo: p, descripcion: d });
+          saveAllState();
+          closeModal();
+          showToast("Experiencia agregada al CV.");
+          renderApp();
+        }
+      );
+    }
+
+    function removeCvExperience(index) {
+      AppState.cv.experiencias.splice(index, 1);
+      saveAllState();
+      renderApp();
+    }
+
+    // Sub-pestaña B: Portafolio
+    function renderPortafolioSubTab() {
+      const items = AppState.portafolio;
+      return `
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+              <h3 style="font-size: 16px; font-weight: 600;">Portafolio de Evidencias Multidisciplinario</h3>
+              <p style="font-size: 13.5px; color: var(--text-secondary);">
+                Muestra proyectos representativos de tu etapa formativa con tu aportación específica y el aprendizaje obtenido.
+              </p>
+            </div>
+            <button class="btn btn-primary" onclick="openAddProjectModal()">
+              + Agregar proyecto
+            </button>
+          </div>
+
+          ${items.length === 0 ? `
+            <div class="empty-state">
+              <div class="empty-state-icon">${Icons.folder(32, 'var(--text-muted)')}</div>
+              <div class="empty-state-title">Aún no has registrado proyectos en tu portafolio</div>
+              <div class="empty-state-desc">
+                Cualquier carrera puede tener evidencias: investigaciones, análisis de datos, campañas, planes de negocio o propuestas creativas.
+              </div>
+              <button class="btn btn-primary" onclick="openAddProjectModal()">Agregar mi primer proyecto</button>
+            </div>
+          ` : `
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px;">
+              ${items.map(p => `
+                <div class="notion-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
+                      <h4 style="font-size: 16px; font-weight: 600; color: var(--text-primary);">${sanitizeText(p.titulo)}</h4>
+                      <div style="display: flex; gap: 4px;">
+                        <button class="btn btn-secondary btn-sm" onclick="openEditProjectModal('${p.id}')" title="Editar proyecto" aria-label="Editar proyecto">
+                          ${Icons.edit(14)}
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="confirmDeleteProject('${p.id}')" title="Eliminar proyecto" aria-label="Eliminar proyecto">
+                          ${Icons.trash(14)}
+                        </button>
+                      </div>
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">${sanitizeText(p.descripcion)}</p>
+
+                    <div style="background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 10px; font-size: 12.5px; margin-bottom: 10px;">
+                      <div style="margin-bottom: 4px;"><strong>Mi aportación:</strong> ${sanitizeText(p.aportacion)}</div>
+                      <div style="margin-bottom: 4px;"><strong>Herramientas / Habilidades:</strong> ${sanitizeText(p.habilidades)}</div>
+                      <div><strong>Resultado / Aprendizaje:</strong> ${sanitizeText(p.resultado)}</div>
+                    </div>
+                  </div>
+
+                  <div>
+                    ${p.enlace && isValidUrl(p.enlace) ? `
+                      <a href="${sanitizeText(p.enlace)}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="width: 100%; text-align: center; display: inline-flex; justify-content: center; align-items: center; gap: 6px;">
+                        <span>Ver evidencia externa</span>
+                        ${Icons.externalLink(13)}
+                      </a>
+                    ` : '<span style="font-size: 12px; color: var(--text-muted);">Sin enlace externo adjunto</span>'}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    function openAddProjectModal() {
+      openModal(
+        "Agregar proyecto al portafolio",
+        `
+          <form id="form-project">
+            <div class="form-group">
+              <label class="form-label" for="proj-title">Título del proyecto <span class="req">*</span></label>
+              <input type="text" id="proj-title" class="form-input" placeholder="Ej. Estudio de Impacto de Reciclaje Urbano" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="proj-desc">Descripción general <span class="req">*</span></label>
+              <textarea id="proj-desc" class="form-textarea" placeholder="¿De qué trataba el proyecto y qué problema abordaba?" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="proj-contrib">Tu aportación personal <span class="req">*</span></label>
+              <textarea id="proj-contrib" class="form-textarea" placeholder="¿Cuál fue tu responsabilidad específica en el equipo?" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="proj-skills">Habilidades o herramientas utilizadas</label>
+              <input type="text" id="proj-skills" class="form-input" placeholder="Ej. Python, Entrevistas, Análisis FODA, Canva" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="proj-result">Resultado o aprendizaje clave</label>
+              <input type="text" id="proj-result" class="form-input" placeholder="Ej. Aprobado con mención de honor / Reducción de 20% en tiempos" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="proj-link">Enlace de evidencia (Opcional, http:// o https://)</label>
+              <input type="url" id="proj-link" class="form-input" placeholder="https://..." />
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Guardar proyecto</button>
+            </div>
+          </form>
+        `,
+        (form) => {
+          const title = form.querySelector("#proj-title").value.trim();
+          const desc = form.querySelector("#proj-desc").value.trim();
+          const contrib = form.querySelector("#proj-contrib").value.trim();
+          const skills = form.querySelector("#proj-skills").value.trim();
+          const result = form.querySelector("#proj-result").value.trim();
+          const link = form.querySelector("#proj-link").value.trim();
+
+          if (!title || !desc || !contrib) return;
+          if (link && !isValidUrl(link)) {
+            showToast("Error: El enlace debe comenzar con http:// o https://");
+            return;
+          }
+
+          const newProj = {
+            id: "p_" + Date.now(),
+            titulo: title,
+            descripcion: desc,
+            aportacion: contrib,
+            habilidades: skills,
+            resultado: result,
+            enlace: link
+          };
+
+          AppState.portafolio.unshift(newProj);
+          saveAllState();
+          closeModal();
+          showToast("Proyecto agregado al portafolio.");
+          renderApp();
+        }
+      );
+    }
+
+    function openEditProjectModal(id) {
+      const p = AppState.portafolio.find(x => x.id === id);
+      if (!p) return;
+
+      openModal(
+        "Editar proyecto",
+        `
+          <form id="form-edit-project">
+            <div class="form-group">
+              <label class="form-label" for="edit-proj-title">Título <span class="req">*</span></label>
+              <input type="text" id="edit-proj-title" class="form-input" value="${sanitizeText(p.titulo)}" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="edit-proj-desc">Descripción <span class="req">*</span></label>
+              <textarea id="edit-proj-desc" class="form-textarea" required>${sanitizeText(p.descripcion)}</textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="edit-proj-contrib">Tu aportación personal <span class="req">*</span></label>
+              <textarea id="edit-proj-contrib" class="form-textarea" required>${sanitizeText(p.aportacion)}</textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="edit-proj-skills">Habilidades o herramientas</label>
+              <input type="text" id="edit-proj-skills" class="form-input" value="${sanitizeText(p.habilidades || '')}" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="edit-proj-result">Resultado o aprendizaje</label>
+              <input type="text" id="edit-proj-result" class="form-input" value="${sanitizeText(p.resultado || '')}" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="edit-proj-link">Enlace de evidencia (http/https)</label>
+              <input type="url" id="edit-proj-link" class="form-input" value="${sanitizeText(p.enlace || '')}" />
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Actualizar proyecto</button>
+            </div>
+          </form>
+        `,
+        (form) => {
+          const title = form.querySelector("#edit-proj-title").value.trim();
+          const desc = form.querySelector("#edit-proj-desc").value.trim();
+          const contrib = form.querySelector("#edit-proj-contrib").value.trim();
+          const link = form.querySelector("#edit-proj-link").value.trim();
+
+          if (!title || !desc || !contrib) return;
+          if (link && !isValidUrl(link)) {
+            showToast("Error: El enlace debe comenzar con http:// o https://");
+            return;
+          }
+
+          p.titulo = title;
+          p.descripcion = desc;
+          p.aportacion = contrib;
+          p.habilidades = form.querySelector("#edit-proj-skills").value.trim();
+          p.resultado = form.querySelector("#edit-proj-result").value.trim();
+          p.enlace = link;
+
+          saveAllState();
+          closeModal();
+          showToast("Proyecto actualizado.");
+          renderApp();
+        }
+      );
+    }
+
+    function confirmDeleteProject(id) {
+      const p = AppState.portafolio.find(x => x.id === id);
+      if (!p) return;
+      openModal(
+        "Confirmar eliminación",
+        `
+          <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 20px;">
+            ¿Deseas eliminar el proyecto <strong>"${sanitizeText(p.titulo)}"</strong> de tu portafolio?
+          </p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+            <button type="button" class="btn btn-danger" onclick="deleteProject('${id}')">Eliminar</button>
+          </div>
+        `
+      );
+    }
+
+    function deleteProject(id) {
+      AppState.portafolio = AppState.portafolio.filter(x => x.id !== id);
+      saveAllState();
+      closeModal();
+      showToast("Proyecto eliminado.");
+      renderApp();
+    }
+
+    // Sub-pestaña C: Entrevistas STAR
+    function renderEntrevistasSubTab() {
+      const state = AppState.entrevistasState;
+      const bank = INTERVIEW_BANK[state.idioma][state.nivel];
+      const currentQ = bank[state.indicePregunta] || bank[0];
+
+      const storedAnswers = StorageManager.get("interview_answers", {});
+      const myAnswer = storedAnswers[currentQ.id] || "";
+
+      return `
+        <div>
+          <!-- Guía del Método STAR -->
+          <div class="star-guide-banner">
+            <strong>Guía del Método STAR para entrevistas conductuales</strong>
+            <p style="font-size: 12.5px; color: var(--text-secondary); margin-top: 2px;">
+              Estructura tus respuestas para ser claro, concreto y honesto sin dispersarte.
+            </p>
+            <div class="star-steps">
+              <div class="star-step-item">
+                <strong>S · Situación</strong>
+                <span>Contexto breve del reto o proyecto</span>
+              </div>
+              <div class="star-step-item">
+                <strong>T · Tarea</strong>
+                <span>Qué objetivo o responsabilidad tenías</span>
+              </div>
+              <div class="star-step-item">
+                <strong>A · Acción</strong>
+                <span>Qué hiciste tú concretamente</span>
+              </div>
+              <div class="star-step-item">
+                <strong>R · Resultado</strong>
+                <span>Qué impacto o aprendizaje obtuviste</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Selectores de Idioma y Nivel -->
+          <div class="controls-bar" style="margin-bottom: 16px;">
+            <div style="display: flex; gap: 8px;">
+              <select class="form-select" onchange="changeInterviewLanguage(this.value)">
+                <option value="es" ${state.idioma === 'es' ? 'selected' : ''}>Idioma: Español</option>
+                <option value="en" ${state.idioma === 'en' ? 'selected' : ''}>Language: English</option>
+              </select>
+
+              <select class="form-select" onchange="changeInterviewLevel(this.value)">
+                <option value="inicial" ${state.nivel === 'inicial' ? 'selected' : ''}>Nivel Inicial</option>
+                <option value="intermedio" ${state.nivel === 'intermedio' ? 'selected' : ''}>Nivel Intermedio</option>
+              </select>
+            </div>
+
+            <div style="font-size: 13px; color: var(--text-muted);">
+              Pregunta ${state.indicePregunta + 1} de ${bank.length}
+            </div>
+          </div>
+
+          <!-- Tarjeta Interactiva de Pregunta -->
+          <div class="interview-card">
+            <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--color-preparacion); letter-spacing: 0.05em; margin-bottom: 6px;">
+              Pregunta de entrevista
+            </div>
+            <h3 style="font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 10px;">
+              "${sanitizeText(currentQ.pregunta)}"
+            </h3>
+
+            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; display: flex; align-items: flex-start; gap: 6px;">
+              <span style="color: var(--color-postulaciones); margin-top: 2px;">${Icons.lightbulb(15)}</span>
+              <span><strong>Consejo del evaluador:</strong> ${sanitizeText(currentQ.consejo)}</span>
+            </div>
+
+            <!-- Botón para revelar / ocultar sugerencia -->
+            <button class="btn btn-secondary btn-sm" onclick="toggleInterviewSuggestion()">
+              ${state.revelarSugerencia ? 'Ocultar ejemplo orientativo' : 'Ver ejemplo orientativo STAR'}
+            </button>
+
+            ${state.revelarSugerencia ? `
+              <div class="interview-suggestion-box">
+                <div style="font-size: 11.5px; font-weight: 700; color: var(--color-preparacion); text-transform: uppercase; margin-bottom: 4px;">
+                  Ejemplo orientativo (No inventes logros; adapta a tu propia vivencia):
+                </div>
+                <div style="white-space: pre-line; line-height: 1.5;">${sanitizeText(currentQ.sugerencia)}</div>
+              </div>
+            ` : ''}
+
+            <!-- Campo de práctica personal autoguardado -->
+            <div style="margin-top: 20px;">
+              <label class="form-label" for="my-answer-${currentQ.id}">
+                Practica y escribe tu propia respuesta STAR para esta pregunta:
+              </label>
+              <textarea id="my-answer-${currentQ.id}" class="form-textarea" style="min-height: 90px;" placeholder="Describe tu Situación, Tarea, Acción y Resultado..." oninput="handleSaveInterviewAnswer('${currentQ.id}', this.value)">${sanitizeText(myAnswer)}</textarea>
+              <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px;" id="answer-status-${currentQ.id}">
+                ${myAnswer ? 'Tu respuesta está guardada en este navegador' : 'Escribe para guardar tu práctica'}
+              </div>
+            </div>
+
+            <!-- Navegación entre preguntas -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-subtle);">
+              <button class="btn btn-secondary btn-sm" onclick="prevInterviewQuestion()" ${state.indicePregunta === 0 ? 'disabled style="opacity: 0.5;"' : ''}>
+                &larr; Pregunta anterior
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="nextInterviewQuestion()" ${state.indicePregunta === bank.length - 1 ? 'disabled style="opacity: 0.5;"' : ''}>
+                Siguiente pregunta &rarr;
+              </button>
+            </div>
+          </div>
+
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 14px; text-align: center;">
+            Aviso pedagógico: Las respuestas son guías demostrativas. La mejor entrevista siempre es aquella basada en tu experiencia real sin exageraciones.
+          </div>
+        </div>
+      `;
+    }
+
+    function changeInterviewLanguage(lang) {
+      AppState.entrevistasState.idioma = lang;
+      AppState.entrevistasState.indicePregunta = 0;
+      AppState.entrevistasState.revelarSugerencia = false;
+      renderApp();
+    }
+
+    function changeInterviewLevel(level) {
+      AppState.entrevistasState.nivel = level;
+      AppState.entrevistasState.indicePregunta = 0;
+      AppState.entrevistasState.revelarSugerencia = false;
+      renderApp();
+    }
+
+    function toggleInterviewSuggestion() {
+      AppState.entrevistasState.revelarSugerencia = !AppState.entrevistasState.revelarSugerencia;
+      renderApp();
+    }
+
+    function nextInterviewQuestion() {
+      const bank = INTERVIEW_BANK[AppState.entrevistasState.idioma][AppState.entrevistasState.nivel];
+      if (AppState.entrevistasState.indicePregunta < bank.length - 1) {
+        AppState.entrevistasState.indicePregunta++;
+        AppState.entrevistasState.revelarSugerencia = false;
+        renderApp();
+      }
+    }
+
+    function prevInterviewQuestion() {
+      if (AppState.entrevistasState.indicePregunta > 0) {
+        AppState.entrevistasState.indicePregunta--;
+        AppState.entrevistasState.revelarSugerencia = false;
+        renderApp();
+      }
+    }
+
+    let interviewDebounceTimers = {};
+    function handleSaveInterviewAnswer(qId, text) {
+      const statusElem = document.getElementById(`answer-status-${qId}`);
+      if (statusElem) statusElem.textContent = "Guardando...";
+
+      if (interviewDebounceTimers[qId]) clearTimeout(interviewDebounceTimers[qId]);
+      interviewDebounceTimers[qId] = setTimeout(() => {
+        const stored = StorageManager.get("interview_answers", {});
+        stored[qId] = text;
+        StorageManager.set("interview_answers", stored);
+        if (statusElem) statusElem.textContent = "Respuesta guardada ✓";
+      }, 500);
+    }
+
+    // --- 11. VISTA: POSTULACIONES ---
+    function renderPostulacionesView() {
+      const items = AppState.postulaciones;
+      const todayStr = getTodayLocalDateString();
+
+      let filtered = items.filter(p => {
+        const matchesEstado = AppState.filtros.postulacionesEstado === "todos" || p.estado === AppState.filtros.postulacionesEstado;
+        const q = AppState.filtros.postulacionesBusqueda.toLowerCase();
+        const matchesQuery = p.empresa.toLowerCase().includes(q) || p.puesto.toLowerCase().includes(q);
+        return matchesEstado && matchesQuery;
+      });
+
+      filtered.sort((a, b) => {
+        const dateA = a.fecha || "";
+        const dateB = b.fecha || "";
+        return AppState.filtros.postulacionesOrden === "asc" ? dateA.localeCompare(dateB) : dateB.localeCompare(dateA);
+      });
+
+      const seguimientosProximos = items.filter(p => p.fechaSeguimiento && p.fechaSeguimiento >= todayStr && p.estado !== "rechazada" && p.estado !== "retirada");
+
+      return `
+        <div>
+          <div class="section-kicker" style="color: var(--color-postulaciones);">Área 3</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 8px;">
+            <h1 class="page-title" style="margin-bottom: 0;">Seguimiento de Postulaciones</h1>
+            <button class="btn btn-primary" onclick="openAddPostulacionModal()">
+              + Nueva postulación
+            </button>
+          </div>
+          <p class="page-description">
+            Lleva el registro ordenado de las vacantes a las que te has postulado, programa fechas de seguimiento y mantén claridad mental en cada etapa.
+          </p>
+
+          <div class="disclaimer-banner">
+            <span>${Icons.info(16)}</span>
+            <span>Esta es una bitácora local de autogestión. Registrar postulaciones aquí no envía correos ni solicitudes a empresas reales.</span>
+          </div>
+
+          <!-- Notificaciones de seguimiento próximo -->
+          ${seguimientosProximos.length > 0 ? `
+            <div style="background-color: #fefce8; border: 1px solid #fef08a; border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 20px; font-size: 13px;">
+              <div style="display: flex; align-items: center; gap: 6px; color: #854d0e; font-weight: 600; margin-bottom: 6px;">
+                ${Icons.bell(16)}
+                <span>Seguimientos próximos pendientes:</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 4px;">
+                ${seguimientosProximos.map(sp => `
+                  <div>
+                    • <strong>${sanitizeText(sp.empresa)}</strong> (${sanitizeText(sp.puesto)}) — Fecha de contacto: <strong>${formatDisplayDate(sp.fechaSeguimiento)}</strong>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Controles de búsqueda, filtro y orden -->
+          <div class="controls-bar">
+            <div class="search-box">
+              <input type="text" class="form-input" placeholder="Buscar por empresa o puesto..." value="${sanitizeText(AppState.filtros.postulacionesBusqueda)}" oninput="handlePostulacionesSearch(this.value)" />
+            </div>
+
+            <div class="filter-group">
+              <select class="form-select" onchange="handlePostulacionesFilter(this.value)">
+                <option value="todos" ${AppState.filtros.postulacionesEstado === 'todos' ? 'selected' : ''}>Todos los estados</option>
+                <option value="enviada" ${AppState.filtros.postulacionesEstado === 'enviada' ? 'selected' : ''}>Enviada</option>
+                <option value="entrevista" ${AppState.filtros.postulacionesEstado === 'entrevista' ? 'selected' : ''}>Entrevista</option>
+                <option value="oferta" ${AppState.filtros.postulacionesEstado === 'oferta' ? 'selected' : ''}>Oferta</option>
+                <option value="rechazada" ${AppState.filtros.postulacionesEstado === 'rechazada' ? 'selected' : ''}>Rechazada</option>
+                <option value="retirada" ${AppState.filtros.postulacionesEstado === 'retirada' ? 'selected' : ''}>Retirada</option>
+              </select>
+
+              <select class="form-select" onchange="handlePostulacionesSort(this.value)">
+                <option value="desc" ${AppState.filtros.postulacionesOrden === 'desc' ? 'selected' : ''}>Más recientes primero</option>
+                <option value="asc" ${AppState.filtros.postulacionesOrden === 'asc' ? 'selected' : ''}>Más antiguas primero</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Tabla de postulaciones -->
+          ${filtered.length === 0 ? `
+            <div class="empty-state">
+              <div class="empty-state-icon">${Icons.clipboardCheck(32, 'var(--text-muted)')}</div>
+              <div class="empty-state-title">No hay postulaciones que coincidan</div>
+              <div class="empty-state-desc">
+                ${items.length === 0 ? 'Registra tu primera postulación para dar seguimiento a tus candidaturas.' : 'Prueba cambiando los filtros de búsqueda o estado.'}
+              </div>
+              ${items.length === 0 ? '<button class="btn btn-primary" onclick="openAddPostulacionModal()">Registrar primera postulación</button>' : ''}
+            </div>
+          ` : `
+            <div class="postulaciones-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Empresa</th>
+                    <th>Puesto</th>
+                    <th>Fecha postulación</th>
+                    <th>Estado</th>
+                    <th>Próximo seguimiento</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${filtered.map(p => `
+                    <tr>
+                      <td data-label="Empresa">
+                        <strong>${sanitizeText(p.empresa)}</strong>
+                        ${p.enlace && isValidUrl(p.enlace) ? `
+                          <a href="${sanitizeText(p.enlace)}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; color: var(--color-inicio); margin-left: 4px;" title="Ver vacante" aria-label="Ver vacante externa de ${sanitizeText(p.empresa)}">
+                            ${Icons.externalLink(13)}
+                          </a>
+                        ` : ''}
+                      </td>
+                      <td data-label="Puesto">${sanitizeText(p.puesto)}</td>
+                      <td data-label="Fecha postulación">${formatDisplayDate(p.fecha)}</td>
+                      <td data-label="Estado">
+                        <select class="form-select" style="padding: 3px 6px; font-size: 12px; width: auto;" onchange="changePostulacionStatus('${p.id}', this.value)">
+                          <option value="enviada" ${p.estado === 'enviada' ? 'selected' : ''}>Enviada</option>
+                          <option value="entrevista" ${p.estado === 'entrevista' ? 'selected' : ''}>Entrevista</option>
+                          <option value="oferta" ${p.estado === 'oferta' ? 'selected' : ''}>Oferta</option>
+                          <option value="rechazada" ${p.estado === 'rechazada' ? 'selected' : ''}>Rechazada</option>
+                          <option value="retirada" ${p.estado === 'retirada' ? 'selected' : ''}>Retirada</option>
+                        </select>
+                      </td>
+                      <td data-label="Seguimiento">
+                        ${p.fechaSeguimiento ? `
+                          <span style="${p.fechaSeguimiento <= todayStr ? 'color: #b91c1c; font-weight: 600;' : ''}">
+                            ${formatDisplayDate(p.fechaSeguimiento)}
+                          </span>
+                        ` : '<span style="color: var(--text-muted);">Sin fecha</span>'}
+                      </td>
+                      <td data-label="Acciones">
+                        <div style="display: flex; gap: 4px;">
+                          <button class="btn btn-secondary btn-sm" onclick="openEditPostulacionModal('${p.id}')" title="Editar postulación" aria-label="Editar postulación">
+                            ${Icons.edit(14)}
+                          </button>
+                          <button class="btn btn-secondary btn-sm" onclick="confirmDeletePostulacion('${p.id}')" title="Eliminar postulación" aria-label="Eliminar postulación">
+                            ${Icons.trash(14)}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    ${p.notas ? `
+                      <tr class="notes-row" style="background-color: var(--bg-secondary); font-size: 12px; color: var(--text-secondary);">
+                        <td colspan="6" style="padding: 6px 14px;">
+                          <span style="font-weight: 600; color: var(--text-primary); margin-right: 4px;">Notas:</span> ${sanitizeText(p.notas)}
+                        </td>
+                      </tr>
+                    ` : ''}
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    function handlePostulacionesSearch(val) {
+      AppState.filtros.postulacionesBusqueda = val;
+      renderApp();
+    }
+
+    function handlePostulacionesFilter(val) {
+      AppState.filtros.postulacionesEstado = val;
+      renderApp();
+    }
+
+    function handlePostulacionesSort(val) {
+      AppState.filtros.postulacionesOrden = val;
+      renderApp();
+    }
+
+    function changePostulacionStatus(id, newStatus) {
+      const p = AppState.postulaciones.find(x => x.id === id);
+      if (p) {
+        p.estado = newStatus;
+        saveAllState();
+        showToast(`Estado actualizado a: ${newStatus}`);
+        renderApp();
+      }
+    }
+
+    function openAddPostulacionModal() {
+      openModal(
+        "Registrar nueva postulación",
+        `
+          <form id="form-postulacion">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="pos-empresa">Empresa u Organización <span class="req">*</span></label>
+                <input type="text" id="pos-empresa" class="form-input" placeholder="Ej. TechCorp" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pos-puesto">Puesto solicitado <span class="req">*</span></label>
+                <input type="text" id="pos-puesto" class="form-input" placeholder="Ej. Analista Trainee" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="pos-fecha">Fecha de postulación</label>
+                <input type="date" id="pos-fecha" class="form-input" value="${getTodayLocalDateString()}" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pos-estado">Estado inicial</label>
+                <select id="pos-estado" class="form-select">
+                  <option value="enviada">Enviada</option>
+                  <option value="entrevista">Entrevista</option>
+                  <option value="oferta">Oferta</option>
+                  <option value="rechazada">Rechazada</option>
+                  <option value="retirada">Retirada</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="pos-link">Enlace de la vacante (Opcional)</label>
+                <input type="url" id="pos-link" class="form-input" placeholder="https://..." />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pos-followup">Fecha de próximo seguimiento (Opcional)</label>
+                <input type="date" id="pos-followup" class="form-input" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="pos-notes">Notas (Nombre del reclutador, puntos clave de la vacante)</label>
+              <textarea id="pos-notes" class="form-textarea" placeholder="Anota cualquier detalle relevante para tu seguimiento..."></textarea>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Registrar postulación</button>
+            </div>
+          </form>
+        `,
+        (form) => {
+          const emp = form.querySelector("#pos-empresa").value.trim();
+          const pue = form.querySelector("#pos-puesto").value.trim();
+          const link = form.querySelector("#pos-link").value.trim();
+
+          if (!emp || !pue) return;
+          if (link && !isValidUrl(link)) {
+            showToast("Error: El enlace debe comenzar con http:// o https://");
+            return;
+          }
+
+          const newPos = {
+            id: "pos_" + Date.now(),
+            empresa: emp,
+            puesto: pue,
+            fecha: form.querySelector("#pos-fecha").value || getTodayLocalDateString(),
+            estado: form.querySelector("#pos-estado").value,
+            enlace: link,
+            fechaSeguimiento: form.querySelector("#pos-followup").value,
+            notas: form.querySelector("#pos-notes").value.trim()
+          };
+
+          AppState.postulaciones.unshift(newPos);
+          saveAllState();
+          closeModal();
+          showToast("Postulación registrada.");
+          renderApp();
+        }
+      );
+    }
+
+    function openEditPostulacionModal(id) {
+      const p = AppState.postulaciones.find(x => x.id === id);
+      if (!p) return;
+
+      openModal(
+        "Editar postulación",
+        `
+          <form id="form-edit-postulacion">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="edit-pos-empresa">Empresa <span class="req">*</span></label>
+                <input type="text" id="edit-pos-empresa" class="form-input" value="${sanitizeText(p.empresa)}" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="edit-pos-puesto">Puesto <span class="req">*</span></label>
+                <input type="text" id="edit-pos-puesto" class="form-input" value="${sanitizeText(p.puesto)}" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="edit-pos-fecha">Fecha postulación</label>
+                <input type="date" id="edit-pos-fecha" class="form-input" value="${p.fecha || ''}" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="edit-pos-estado">Estado</label>
+                <select id="edit-pos-estado" class="form-select">
+                  <option value="enviada" ${p.estado === 'enviada' ? 'selected' : ''}>Enviada</option>
+                  <option value="entrevista" ${p.estado === 'entrevista' ? 'selected' : ''}>Entrevista</option>
+                  <option value="oferta" ${p.estado === 'oferta' ? 'selected' : ''}>Oferta</option>
+                  <option value="rechazada" ${p.estado === 'rechazada' ? 'selected' : ''}>Rechazada</option>
+                  <option value="retirada" ${p.estado === 'retirada' ? 'selected' : ''}>Retirada</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="edit-pos-link">Enlace de la vacante</label>
+                <input type="url" id="edit-pos-link" class="form-input" value="${sanitizeText(p.enlace || '')}" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="edit-pos-followup">Próximo seguimiento</label>
+                <input type="date" id="edit-pos-followup" class="form-input" value="${p.fechaSeguimiento || ''}" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="edit-pos-notes">Notas</label>
+              <textarea id="edit-pos-notes" class="form-textarea">${sanitizeText(p.notes || p.notas || '')}</textarea>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Actualizar</button>
+            </div>
+          </form>
+        `,
+        (form) => {
+          const emp = form.querySelector("#edit-pos-empresa").value.trim();
+          const pue = form.querySelector("#edit-pos-puesto").value.trim();
+          const link = form.querySelector("#edit-pos-link").value.trim();
+
+          if (!emp || !pue) return;
+          if (link && !isValidUrl(link)) {
+            showToast("Error: El enlace debe comenzar con http:// o https://");
+            return;
+          }
+
+          p.empresa = emp;
+          p.puesto = pue;
+          p.fecha = form.querySelector("#edit-pos-fecha").value;
+          p.estado = form.querySelector("#edit-pos-estado").value;
+          p.enlace = link;
+          p.fechaSeguimiento = form.querySelector("#edit-pos-followup").value;
+          p.notas = form.querySelector("#edit-pos-notes").value.trim();
+
+          saveAllState();
+          closeModal();
+          showToast("Postulación actualizada.");
+          renderApp();
+        }
+      );
+    }
+
+    function confirmDeletePostulacion(id) {
+      const p = AppState.postulaciones.find(x => x.id === id);
+      if (!p) return;
+      openModal(
+        "Confirmar eliminación",
+        `
+          <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 20px;">
+            ¿Deseas eliminar la postulación para <strong>"${sanitizeText(p.puesto)}"</strong> en <strong>"${sanitizeText(p.empresa)}"</strong>?
+          </p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+            <button type="button" class="btn btn-danger" onclick="deletePostulacion('${id}')">Eliminar</button>
+          </div>
+        `
+      );
+    }
+
+    function deletePostulacion(id) {
+      AppState.postulaciones = AppState.postulaciones.filter(x => x.id !== id);
+      saveAllState();
+      closeModal();
+      showToast("Postulación eliminada.");
+      renderApp();
+    }
+
+    // --- 12. VISTA: JOURNAL Y HÁBITOS ---
+    function renderJournalView() {
+      const journal = AppState.journal;
+      const todayStr = getTodayLocalDateString();
+      const habitosHoy = AppState.habitos.registro[todayStr] || [];
+      const totalHabitos = AppState.habitos.lista.length;
+      const progresoHabitosHoy = habitosHoy.length;
+
+      const q = AppState.filtros.journalBusqueda.toLowerCase();
+      const filteredEntries = journal.entradas.filter(e => {
+        return (e.titulo && e.titulo.toLowerCase().includes(q)) || e.contenido.toLowerCase().includes(q);
+      });
+
+      return `
+        <div>
+          <div class="section-kicker" style="color: var(--color-journal);">Área 4</div>
+          <h1 class="page-title">Journal de Reflexión y Hábitos</h1>
+          <p class="page-description">
+            Un espacio sereno para asimilar aprendizajes, procesar la incertidumbre y cultivar hábitos diarios a tu propio ritmo, sin presiones ni juicios.
+          </p>
+
+          <div class="journal-layout">
+            <!-- Columna Izquierda: Redacción de Entrada con Autoguardado de Borrador -->
+            <div>
+              <div class="notion-card">
+                <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Nueva entrada de reflexión</h3>
+                <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 12px;">
+                  Tus reflexiones se guardan exclusivamente en este navegador. Nadie más tiene acceso a ellas.
+                </p>
+
+                <!-- Sugerencias de reflexión opcionales -->
+                <div style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">
+                  Disparadores de reflexión (clic para insertar):
+                </div>
+                <div class="reflection-prompts">
+                  <span class="prompt-chip" onclick="insertReflectionPrompt('¿Qué aprendí hoy en mi proceso?')">¿Qué aprendí hoy?</span>
+                  <span class="prompt-chip" onclick="insertReflectionPrompt('¿Qué obstáculo encontré y cómo lo enfrenté?')">Obstáculo superado</span>
+                  <span class="prompt-chip" onclick="insertReflectionPrompt('Un pequeño logro por el que me felicito hoy:')">Pequeño logro</span>
+                  <span class="prompt-chip" onclick="insertReflectionPrompt('¿Cómo puedo cuidar mi calma mañana?')">Cuidar mi calma</span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="journal-title-input">Título (Opcional)</label>
+                  <input type="text" id="journal-title-input" class="form-input" placeholder="Ej. Una pequeña victoria hoy" value="${sanitizeText(journal.borrador.titulo)}" oninput="updateJournalDraftTitle(this.value)" />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="journal-content-input">Contenido reflexivo <span class="req">*</span></label>
+                  <textarea id="journal-content-input" class="form-textarea" style="min-height: 130px;" placeholder="Escribe con calma lo que pasó por tu mente hoy..." oninput="updateJournalDraftContent(this.value)">${sanitizeText(journal.borrador.contenido)}</textarea>
+                  <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px;" id="journal-draft-indicator">
+                    Borrador respaldado automáticamente al escribir
+                  </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="clearJournalDraft()">
+                    Limpiar borrador
+                  </button>
+                  <button type="button" class="btn btn-primary" onclick="saveJournalEntry()">
+                    Guardar entrada &rarr;
+                  </button>
+                </div>
+              </div>
+
+              <!-- Registro de Hábitos Diarios -->
+              <div class="habits-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                  <div>
+                    <h3 style="font-size: 15px; font-weight: 600;">Hábitos conscientes de hoy</h3>
+                    <div style="font-size: 12.5px; color: var(--text-secondary);">
+                      Fecha local: <strong>${formatDisplayDate(todayStr)}</strong> · ${progresoHabitosHoy} de ${totalHabitos} completados
+                    </div>
+                  </div>
+                  <button class="btn btn-secondary btn-sm" onclick="openAddHabitModal()">+ Hábito</button>
+                </div>
+
+                <div style="margin-bottom: 12px;">
+                  ${AppState.habitos.lista.map(h => {
+                    const isDone = habitosHoy.includes(h.id);
+                    return `
+                      <div class="habit-item ${isDone ? 'done' : ''}">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; flex: 1;">
+                          <input type="checkbox" class="habit-checkbox" ${isDone ? 'checked' : ''} onchange="toggleHabitForToday('${h.id}')" />
+                          <span style="${isDone ? 'text-decoration: line-through; color: var(--text-muted);' : 'font-weight: 500;'}">
+                            ${sanitizeText(h.nombre)}
+                          </span>
+                        </label>
+                        <div style="display: flex; gap: 4px;">
+                          <button class="btn btn-secondary btn-sm" style="padding: 3px 6px;" onclick="renameHabit('${h.id}')" title="Renombrar hábito" aria-label="Renombrar hábito">
+                            ${Icons.edit(12)}
+                          </button>
+                          <button class="btn btn-secondary btn-sm" style="padding: 3px 6px;" onclick="deleteHabit('${h.id}')" title="Eliminar hábito" aria-label="Eliminar hábito">
+                            ${Icons.close(12)}
+                          </button>
+                        </div>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+
+                <div style="font-size: 12px; color: var(--text-secondary); display: flex; align-items: center; gap: 6px;">
+                  <span style="color: var(--color-formacion);">${Icons.leaf(15)}</span>
+                  <span>"No hay castigos ni rachas que perder. Lo que importa es el intento presente."</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Columna Derecha: Historial de Entradas Anteriores -->
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="font-size: 16px; font-weight: 600;">Entradas anteriores</h3>
+                <span style="font-size: 12.5px; color: var(--text-muted);">${filteredEntries.length} reflexiones</span>
+              </div>
+
+              <div style="margin-bottom: 14px;">
+                <input type="text" class="form-input" placeholder="Buscar en reflexiones pasadas..." value="${sanitizeText(AppState.filtros.journalBusqueda)}" oninput="handleJournalSearch(this.value)" />
+              </div>
+
+              ${filteredEntries.length === 0 ? `
+                <div class="empty-state" style="padding: 32px 16px;">
+                  <div class="empty-state-icon">${Icons.notebook(32, 'var(--text-muted)')}</div>
+                  <div class="empty-state-title">No hay reflexiones registradas</div>
+                  <div class="empty-state-desc">Tus entradas guardadas aparecerán aquí ordenadas de más reciente a más antigua.</div>
+                </div>
+              ` : `
+                <div style="display: flex; flex-direction: column; gap: 12px; max-height: 600px; overflow-y: auto; padding-right: 4px;">
+                  ${filteredEntries.map(e => `
+                    <div class="notion-card" style="padding: 16px;">
+                      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px;">
+                        <h4 style="font-size: 14.5px; font-weight: 600; color: var(--text-primary);">${sanitizeText(e.titulo || 'Reflexión sin título')}</h4>
+                        <div style="display: flex; gap: 4px;">
+                          <button class="btn btn-secondary btn-sm" style="padding: 3px 6px;" onclick="openEditJournalModal('${e.id}')" title="Editar reflexión" aria-label="Editar reflexión">
+                            ${Icons.edit(13)}
+                          </button>
+                          <button class="btn btn-secondary btn-sm" style="padding: 3px 6px;" onclick="confirmDeleteJournalEntry('${e.id}')" title="Eliminar reflexión" aria-label="Eliminar reflexión">
+                            ${Icons.trash(13)}
+                          </button>
+                        </div>
+                      </div>
+
+                      <div style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 8px;">
+                        ${new Date(e.createdAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                        ${e.updatedAt && e.updatedAt !== e.createdAt ? ' · (Editado)' : ''}
+                      </div>
+
+                      <div style="font-size: 13px; color: var(--text-primary); line-height: 1.5; white-space: pre-line;">
+                        ${sanitizeText(e.contenido)}
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              `}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function insertReflectionPrompt(promptText) {
+      const textarea = document.getElementById("journal-content-input");
+      if (textarea) {
+        const current = textarea.value.trim();
+        textarea.value = current ? current + "\n\n" + promptText + "\n" : promptText + "\n";
+        updateJournalDraftContent(textarea.value);
+        textarea.focus();
+      }
+    }
+
+    function updateJournalDraftTitle(val) {
+      AppState.journal.borrador.titulo = val;
+      saveAllState();
+    }
+
+    let journalDraftTimer = null;
+    function updateJournalDraftContent(val) {
+      AppState.journal.borrador.contenido = val;
+      const ind = document.getElementById("journal-draft-indicator");
+      if (ind) ind.textContent = "Guardando borrador...";
+      if (journalDraftTimer) clearTimeout(journalDraftTimer);
+      journalDraftTimer = setTimeout(() => {
+        saveAllState();
+        if (ind) ind.textContent = "Borrador guardado localmente ✓";
+      }, 500);
+    }
+
+    function clearJournalDraft() {
+      AppState.journal.borrador = { titulo: "", contenido: "" };
+      saveAllState();
+      renderApp();
+      showToast("Borrador limpiado.");
+    }
+
+    function saveJournalEntry() {
+      const draft = AppState.journal.borrador;
+      const content = draft.contenido.trim();
+      if (!content) {
+        showToast("Por favor escribe contenido para guardar la reflexión.");
+        return;
+      }
+
+      const now = new Date().toISOString();
+      const newEntry = {
+        id: "j_" + Date.now(),
+        titulo: draft.titulo.trim(),
+        contenido: content,
+        createdAt: now,
+        updatedAt: now
+      };
+
+      AppState.journal.entradas.unshift(newEntry);
+      AppState.journal.borrador = { titulo: "", contenido: "" };
+      saveAllState();
+      showToast("Entrada guardada en tu journal.");
+      renderApp();
+    }
+
+    function handleJournalSearch(val) {
+      AppState.filtros.journalBusqueda = val;
+      renderApp();
+    }
+
+    function openEditJournalModal(id) {
+      const e = AppState.journal.entradas.find(x => x.id === id);
+      if (!e) return;
+
+      openModal(
+        "Editar reflexión",
+        `
+          <form id="form-edit-journal">
+            <div class="form-group">
+              <label class="form-label" for="edit-journal-title">Título (Opcional)</label>
+              <input type="text" id="edit-journal-title" class="form-input" value="${sanitizeText(e.titulo || '')}" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="edit-journal-content">Contenido <span class="req">*</span></label>
+              <textarea id="edit-journal-content" class="form-textarea" style="min-height: 140px;" required>${sanitizeText(e.contenido)}</textarea>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Actualizar reflexión</button>
+            </div>
+          </form>
+        `,
+        (form) => {
+          const content = form.querySelector("#edit-journal-content").value.trim();
+          if (!content) return;
+          e.titulo = form.querySelector("#edit-journal-title").value.trim();
+          e.contenido = content;
+          e.updatedAt = new Date().toISOString();
+          saveAllState();
+          closeModal();
+          showToast("Reflexión actualizada.");
+          renderApp();
+        }
+      );
+    }
+
+    function confirmDeleteJournalEntry(id) {
+      openModal(
+        "Confirmar eliminación",
+        `
+          <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 20px;">
+            ¿Estás seguro/a de eliminar esta entrada de reflexión?
+          </p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+            <button type="button" class="btn btn-danger" onclick="deleteJournalEntry('${id}')">Eliminar</button>
+          </div>
+        `
+      );
+    }
+
+    function deleteJournalEntry(id) {
+      AppState.journal.entradas = AppState.journal.entradas.filter(x => x.id !== id);
+      saveAllState();
+      closeModal();
+      showToast("Entrada eliminada.");
+      renderApp();
+    }
+
+    // Funciones de Hábitos
+    function toggleHabitForToday(habitId) {
+      const todayStr = getTodayLocalDateString();
+      if (!AppState.habitos.registro[todayStr]) {
+        AppState.habitos.registro[todayStr] = [];
+      }
+
+      const list = AppState.habitos.registro[todayStr];
+      const idx = list.indexOf(habitId);
+      if (idx >= 0) {
+        list.splice(idx, 1);
+      } else {
+        list.push(habitId);
+      }
+
+      saveAllState();
+      renderApp();
+    }
+
+    function openAddHabitModal() {
+      openModal(
+        "Agregar nuevo micro-hábito diario",
+        `
+          <form id="form-add-habit">
+            <div class="form-group">
+              <label class="form-label" for="new-habit-name">Nombre del hábito <span class="req">*</span></label>
+              <input type="text" id="new-habit-name" class="form-input" placeholder="Ej. Leer 10 minutos un artículo técnico" required />
+              <div class="form-hint">Elige acciones pequeñas, amables y alcanzables.</div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Crear hábito</button>
+            </div>
+          </form>
+        `,
+        (form) => {
+          const name = form.querySelector("#new-habit-name").value.trim();
+          if (!name) return;
+          const newH = {
+            id: "h_" + Date.now(),
+            nombre: name
+          };
+          AppState.habitos.lista.push(newH);
+          saveAllState();
+          closeModal();
+          showToast("Hábito creado.");
+          renderApp();
+        }
+      );
+    }
+
+    function renameHabit(id) {
+      const h = AppState.habitos.lista.find(x => x.id === id);
+      if (!h) return;
+
+      openModal(
+        "Renombrar hábito",
+        `
+          <form id="form-rename-habit">
+            <div class="form-group">
+              <label class="form-label" for="rename-habit-input">Nuevo nombre <span class="req">*</span></label>
+              <input type="text" id="rename-habit-input" class="form-input" value="${sanitizeText(h.nombre)}" required />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-modal-cancel">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+          </form>
+        `,
+        (form) => {
+          const val = form.querySelector("#rename-habit-input").value.trim();
+          if (!val) return;
+          h.nombre = val;
+          saveAllState();
+          closeModal();
+          showToast("Hábito renombrado.");
+          renderApp();
+        }
+      );
+    }
+
+    function deleteHabit(id) {
+      AppState.habitos.lista = AppState.habitos.lista.filter(x => x.id !== id);
+      saveAllState();
+      showToast("Hábito eliminado.");
+      renderApp();
+    }
+
+    // --- 13. RENDERIZADOR MAESTRO DE LA APLICACIÓN ---
+    function renderApp() {
+      const root = document.getElementById("app-root");
+      if (!root) return;
+
+      const route = AppState.activeRoute;
+
+      if (route === "bienvenida") {
+        root.innerHTML = renderBienvenida();
+      } else if (route === "acceso") {
+        root.innerHTML = renderAcceso();
+      } else if (route === "dashboard") {
+        root.innerHTML = renderWorkspaceShell(renderDashboardView(), "Inicio");
+      } else if (route === "formacion") {
+        root.innerHTML = renderWorkspaceShell(renderFormacionView(), "Formación");
+      } else if (route === "preparacion") {
+        root.innerHTML = renderWorkspaceShell(renderPreparacionView(), "Preparación profesional");
+      } else if (route === "postulaciones") {
+        root.innerHTML = renderWorkspaceShell(renderPostulacionesView(), "Postulaciones");
+      } else if (route === "journal") {
+        root.innerHTML = renderWorkspaceShell(renderJournalView(), "Journal y Hábitos");
+      } else {
+        root.innerHTML = renderBienvenida();
+      }
+    }
+
+    // --- 14. INICIALIZACIÓN GLOBAL ---
+    window.addEventListener("DOMContentLoaded", () => {
+      loadOrCreateInitialData();
+      const initialHash = window.location.hash.replace("#", "");
+      if (initialHash && ["bienvenida", "acceso", "dashboard", "formacion", "preparacion", "postulaciones", "journal"].includes(initialHash)) {
+        AppState.activeRoute = initialHash;
+      } else {
+        AppState.activeRoute = "bienvenida";
+      }
+      renderApp();
+    });
+  </script>
+</body>
+</html>
